@@ -1,0 +1,24 @@
+.icon{
+    margin: 20px;
+}
+
+.logo{
+    width: 50%;
+    height: auto;
+}
+
+.ctn{
+    background-color: #5ca7d8;
+    padding: 20px;
+    padding-top: 20px;
+}
+
+.title{
+    text-align: center;
+    font-weight: bold;
+}
+
+.para{
+    color: white;
+    margin-top: 30px;
+}

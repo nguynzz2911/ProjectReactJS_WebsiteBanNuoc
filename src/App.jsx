@@ -1,12 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import Footer from './assets/Components/Footer.jsx'
+import Header from './assets/Components/Header.jsx'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
 
   return (
     <>
-      
+      <Header></Header>
+      {/* <Footer></Footer> */}
     </>
   )
 }

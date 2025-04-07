@@ -1,0 +1,30 @@
+.btn:hover{
+    font-size: larger;
+    color: red;
+    font-weight: bold;
+}
+
+.container-fluid{
+    padding: 20px;
+    padding-top: 20px;
+}
+
+.btn{
+    /* background-color: #5ca7d8; */
+    font-size: large;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.container-fluid{
+    border-bottom: 2px solid black;
+    /* box-shadow: ; */
+}
