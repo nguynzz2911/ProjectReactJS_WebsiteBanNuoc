@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom'
 export default function Header() {
   return (
     <>
-        <div className="container-fluid row">
+        <div className="container-fluid contn row">
           <div className="col" style={{display:'flex', justifyContent:'center', alignItems:"center"}}>
             <button className='btn'>Trang chủ</button>
           </div>

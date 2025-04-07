@@ -22,9 +22,9 @@ export default function Footer() {
             </div>
             <div className="foot2 col">
               <h2 className='title my-5'>THÔNG TIN LIÊN HỆ</h2>
-              <p className='para'>&bull;  Địa chỉ: <span style={{color:'yellow'}}>Số 12 Nguyễn Văn Bảo, Phường 1, Quận Gò Vấp, Thành phố Hồ Chí Minh</span></p>
-              <p className='para'>&bull;  Điện thoại: <span style={{color:'yellow'}}>028 38940 390 - 100</span></p>
-              <p className='para'>&bull;  Email: <span style={{color:'yellow'}}>dhcn@iuh.edu.vn</span></p>
+              <p className='para'>&bull;  Địa chỉ: <a href="https://maps.app.goo.gl/XgVXdcSWuNJH7SKk9" style={{color:'yellow', textDecoration:'none'}}>Số 12 Nguyễn Văn Bảo, Phường 1, Quận Gò Vấp, Thành phố Hồ Chí Minh</a></p>
+              <p className='para'>&bull;  Điện thoại: <a href="tel:028 38940 390" style={{color:'yellow', textDecoration:'none'}}>028 38940 390 - 100</a></p>
+              <p className='para'>&bull;  Email: <a href="mailto:dhcn@iuh.edu.vn" style={{color:'yellow', textDecoration:'none'}}>dhcn@iuh.edu.vn</a></p>
             </div>
             <div className="foot3 col">
               
