@@ -6,6 +6,7 @@ import Contact from './assets/Pages/Contact.jsx'
 import About from './assets/Pages/AboutUs.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Orders from './assets/Pages/Orders.jsx'
 
 function App() {
 
@@ -14,6 +15,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/detail" element={<Detail />} />
           <Route path="/news" element={<News />} />
           <Route path="/cart" element={<Cart />} />

@@ -14,7 +14,7 @@ export default function Header() {
             <Link to={`/`}><button className='btn'>Trang chủ</button></Link>
           </div>
           <div className="col"  style={{display:'flex', justifyContent:'center', alignItems:"center"}}>
-            <button className='btn'>Menu</button>
+          <Link to={`/orders`}><button className='btn'>Menu</button></Link>
           </div>
           <div className="col"  style={{display:'flex', justifyContent:'center', alignItems:"center"}}>
             <Link to={`/about`}><button className='btn'>Giới thiệu</button></Link>

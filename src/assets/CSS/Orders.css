@@ -1,0 +1,35 @@
+.card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 1rem;
+}
+
+.btn {
+  font-size: 0.95rem;
+}
+.buy-button {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.buy-button:hover {
+  color: white !important;
+}
+.card {
+  border-radius: 15px !important; 
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.02); 
+}
+
+.card-img-top {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  object-fit: cover;
+  height: 200px;
+}
