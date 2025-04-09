@@ -8,7 +8,25 @@
     padding: 20px;
     padding-top: 20px;
     border-bottom: 2px solid black;
-    margin-bottom: 50px;
+    background-color: white;
+}
+
+.header-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 1050;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-container.hide {
+    transform: translateY(-100%);
+}
+
+.header-container.show {
+    transform: translateY(0);
 }
 
 .btn{

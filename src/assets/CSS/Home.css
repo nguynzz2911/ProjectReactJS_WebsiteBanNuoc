@@ -1,0 +1,27 @@
+.content {
+    position: relative;
+    z-index: 1;
+    padding-top: 50px;
+}
+
+.hot{
+  color: red;
+}
+
+.div2{
+  background-color: white;
+}
+
+.mon{
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black; 
+  padding-left: 30px;
+}
+
+.monTitle{
+  color: white;
+  font-weight: bold;
+}
