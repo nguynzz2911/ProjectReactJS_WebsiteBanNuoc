@@ -46,7 +46,7 @@ export default function Orders() {
         <Header />
       </div>
 
-      <div className="content">
+      <div className="content" style={{ marginBottom: "100px", marginTop: "150px" }}>
         {}
         <div className="text-center my-4">
           <img src={Logo} alt="logo" style={{ width: "50px" }} />

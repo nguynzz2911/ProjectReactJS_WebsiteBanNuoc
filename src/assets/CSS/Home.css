@@ -1,7 +1,6 @@
 .content {
     position: relative;
     z-index: 1;
-    padding-top: 50px;
 }
 
 .hot{
@@ -13,15 +12,22 @@
 }
 
 .mon{
-  height: 25%;
+  height: 24%;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid black; 
+  margin: 1%;
+  border-radius: 20px;
   padding-left: 30px;
+  transition: background-color 0.3s ease;
 }
 
 .monTitle{
   color: white;
   font-weight: bold;
+}
+
+.btn-tatca{
+  color: white;
 }
