@@ -22,6 +22,10 @@
   overflow: hidden;
   transition: transform 0.2s ease-in-out;
 }
+.card .btn {
+  color: white;
+}
+
 
 .card:hover {
   transform: scale(1.02); 

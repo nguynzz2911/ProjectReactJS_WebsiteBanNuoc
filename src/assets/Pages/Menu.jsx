@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import "../CSS/Orders.css";
 import Logo from "../../images/logo.png";
 
-export default function Orders() {
+export default function Menu() {
   const [drinks, setDrinks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPrice, setSelectedPrice] = useState("");
   const [selectedType, setSelectedType] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -40,6 +42,10 @@ export default function Orders() {
     return matchesSearch && matchesPrice && matchesType;
   });
 
+  const handleCardClick = (drink) => {
+    navigate(`/detail/${drink.id}`, { state: { drink } });
+  };
+
   return (
     <div className="container-fluid">
       <div className="header">
@@ -47,13 +53,13 @@ export default function Orders() {
       </div>
 
       <div className="content" style={{ marginBottom: "100px", marginTop: "150px" }}>
-        {}
+        
         <div className="text-center my-4">
           <img src={Logo} alt="logo" style={{ width: "50px" }} />
           <h2 className="fw-bold mt-2">Danh sách đồ uống</h2>
         </div>
 
-        {}
+        
         <div className="filter-bar d-flex flex-wrap justify-content-center gap-3 mb-4">
           <div className="input-group" style={{ maxWidth: "250px" }}>
             <span className="input-group-text"><i className="bi bi-search"></i></span>
@@ -87,7 +93,7 @@ export default function Orders() {
             <option value="">Loại</option>
             <option value="LOẠI THUẦN TRÀ">LOẠI THUẦN TRÀ</option>
             <option value="LOẠI TRÀ SỮA">LOẠI TRÀ SỮA</option>
-            <option value="LOẠI TRÀ MATTE">LOẠI TRÀ MATTE</option>
+            <option value="LOẠI TRÀ LATTE">LOẠI TRÀ LATTE</option>
             <option value="LOẠI TRÀ TRANH">LOẠI TRÀ TRANH</option>
             <option value="LOẠI TRÀ TRÁI CÂY">LOẠI TRÀ TRÁI CÂY</option>
           </select>
@@ -105,15 +111,28 @@ export default function Orders() {
           ) : (
             filteredDrinks.map((drink, index) => (
               <div className="col" key={index}>
-                <div className="card h-100 shadow-sm rounded-3">
+                <div
+                  className="card h-100 shadow-sm rounded-3"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleCardClick(drink)}
+                >
                   <img src={drink.image} alt={drink.name} className="card-img-top" />
                   <div className="card-body text-center">
-                    <h5 className="card-title fw-bold">{drink.name}</h5>
-                    <p className="card-price text-danger fw-bold">
-                      {Number(drink.price.replace(/,/g, "")).toLocaleString()} đ
-                    </p>
-                    <button className="btn btn-primary buy-button">MUA NGAY</button>
-                  </div>
+  <h5 className="card-title fw-bold">{drink.name}</h5>
+  <p className="card-price text-danger fw-bold">
+    {Number(drink.price.replace(/,/g, "")).toLocaleString()} đ
+  </p>
+  <button
+    className="btn btn-primary btn-sm mt-2"
+    onClick={(e) => {
+      e.stopPropagation(); 
+      alert(`Đã chọn mua: ${drink.name}`);
+    }}
+  >
+    Mua ngay
+  </button>
+</div>
+
                 </div>
               </div>
             ))
