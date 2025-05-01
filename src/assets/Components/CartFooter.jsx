@@ -5,15 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function CartFooter({
     totalPrice = 0,
-    onSelectAll = () => {},
     onCheckout = () => {},
   }) {
-    const [selectAll, setSelectAll] = useState(false)
-
-    const handleSelectAll = (checked) => {
-      setSelectAll(checked)
-      onSelectAll(checked)
-    }
   return (
     <div className="fixed-bottom bg-light border-top"> {/* Thêm class fixed-bottom và background */}
       <div className="container-fluid">

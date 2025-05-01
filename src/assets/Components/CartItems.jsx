@@ -14,12 +14,14 @@ export default function ProductItem({
   onQuantityChange = () => {},
 }) {
   const [quantity, setQuantity] = useState(initialQuantity)
-
+  const parsedPrice = parseFloat(price) || 0
+  const [gia, setGia] = useState(Number(parsedPrice))
   const handleIncrease = () => {
     const newQuantity = quantity + 1
     setQuantity(newQuantity)
     onQuantityChange(id, newQuantity)
-    console.log(quantity);
+    const parsedPrice = parseFloat(price) || 0
+    setGia(parsedPrice * newQuantity)
   }
 
   const handleDecrease = () => {
@@ -27,14 +29,14 @@ export default function ProductItem({
       const newQuantity = quantity - 1
       setQuantity(newQuantity)
       onQuantityChange(id, newQuantity)
-      console.log(quantity);
-      
+      const parsedPrice = parseFloat(price) || 0
+      setGia(parsedPrice * newQuantity)
     }
   }
 
-  const handleDelete = () => {
-    onDelete(id)
-  }
+    const handleDelete = () => {
+        onDelete(id)
+    }
 
   return (
     <Row className="align-items-center mb-3 p-3 border rounded">
@@ -49,7 +51,7 @@ export default function ProductItem({
       </Col>
 
       <Col xs={6} md={2} className="text-danger fw-bold">
-        {price} đ
+        {gia.toString()},000 đ
       </Col>
 
       {/* Số lượng có thể tăng giảm */}
