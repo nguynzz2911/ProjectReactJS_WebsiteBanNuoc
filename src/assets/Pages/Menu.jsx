@@ -46,23 +46,59 @@ export default function Menu({onAddToCart}) {
     navigate(`/detail/${drink.id}`, { state: { drink } });
   };
 
-  const handleBuyNow = (drink) => {
-    // Tạo một object đại diện cho sản phẩm trong giỏ hàng
-    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  // const handleBuyNow = (drink) => {
+  //   // Tạo một object đại diện cho sản phẩm trong giỏ hàng
+  //   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-    if (!isLoggedIn) {
+  //   if (!isLoggedIn) {
+  //     alert("Vui lòng đăng nhập để mua hàng.");
+  //     navigate("/login");
+  //     return;
+  //   }
+  //   const cartItem = {
+  //     id: drink.id,
+  //     name: drink.name,
+  //     image: drink.image,
+  //     price: drink.price,
+  //   };
+  //   onAddToCart(cartItem);
+  //   alert(`Đã chọn mua: ${drink.name}`);
+  // };
+
+  const handleBuyNow = async (drink) => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const username = localStorage.getItem("username");
+  
+    if (!isLoggedIn || !username) {
       alert("Vui lòng đăng nhập để mua hàng.");
       navigate("/login");
       return;
     }
-    const cartItem = {
-      id: drink.id,
-      name: drink.name,
-      image: drink.image,
-      price: drink.price,
-    };
-    onAddToCart(cartItem);
-    alert(`Đã chọn mua: ${drink.name}`);
+  
+    try {
+      const response = await fetch("http://localhost:3001/api/orders/add-to-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, itemId: drink.id })
+      });
+  
+      const result = await response.json();
+      if (result.success) {
+        alert(`Đã thêm ${drink.name} vào giỏ hàng.`);
+        // const cartItem = {
+        //   id: drink.id,
+        //   name: drink.name,
+        //   image: drink.image,
+        //   price: drink.price,
+        // };
+        // onAddToCart(cartItem);
+      } else {
+        alert("Có lỗi xảy ra: " + result.message);
+      }
+    } catch (err) {
+      console.error("Lỗi khi thêm vào giỏ hàng:", err);
+      alert("Không thể thêm sản phẩm. Kiểm tra kết nối.");
+    }
   };
 
   return (

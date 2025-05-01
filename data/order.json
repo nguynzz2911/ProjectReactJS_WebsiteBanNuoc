@@ -10,6 +10,14 @@
       {
         "item_id": 3,
         "quantity": 1
+      },
+      {
+        "item_id": 20,
+        "quantity": 1
+      },
+      {
+        "item_id": 23,
+        "quantity": 1
       }
     ]
   },

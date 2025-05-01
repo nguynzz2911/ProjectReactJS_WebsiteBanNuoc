@@ -49,4 +49,36 @@ router.post('/delete-item', (req, res) => {
   }
 });
 
+router.post('/add-to-order', (req, res) => {
+  const { username, itemId } = req.body;
+
+  if (!username || !itemId) {
+    return res.status(400).json({ success: false, message: 'Thiếu thông tin' });
+  }
+
+  const data = JSON.parse(readFileSync(filePath, 'utf8'));
+
+  let userOrder = data.find(order => order.customer === username);
+
+  if (!userOrder) {
+    // Nếu chưa có đơn hàng, tạo mới
+    userOrder = {
+      customer: username,
+      item: [{ item_id: itemId, quantity: 1 }]
+    };
+    data.push(userOrder);
+  } else {
+    // Nếu đã có, kiểm tra sản phẩm đã tồn tại
+    const existingItem = userOrder.item.find(i => i.item_id === itemId);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      userOrder.item.push({ item_id: itemId, quantity: 1 });
+    }
+  }
+
+  writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+  res.json({ success: true, message: 'Đã thêm sản phẩm vào giỏ hàng' });
+});
+
 export default router;

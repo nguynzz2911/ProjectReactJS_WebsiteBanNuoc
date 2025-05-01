@@ -19,7 +19,7 @@ export default function Cart() {
     if (!userOrder) return;
     // Ghép thông tin sản phẩm và số lượng
     const mergedItems = userOrder.item.map(({ item_id, quantity }) => {
-      const product = products.find(p => p.id === item_id);// Cập nhật tổng giá tiền
+      const product = products.find(p => p.id === item_id);
       return {
         id: item_id,
         name: product?.name || "Không rõ",
@@ -58,7 +58,7 @@ export default function Cart() {
   return (
     <div className="container-fluid">
       <Header />
-      <div className="content" style={{ marginTop: "150px" }}>
+      <div className="content" style={{ marginTop: "150px", marginBottom: "100px" }}>
         {cart.length === 0 ? (
           <p className="text-center">Giỏ hàng của bạn đang trống.</p>
         ) : (
