@@ -10,6 +10,8 @@ export default function Detail({ onAddToCart }) {
 
   const drink = state?.drink;
 
+  
+
   if (!drink) {
     return (
       <div className="text-center mt-5">
@@ -21,6 +23,13 @@ export default function Detail({ onAddToCart }) {
 
   const handleBuyNow = () => {
     // Tạo một object đại diện cho sản phẩm trong giỏ hàng
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    if (!isLoggedIn) {
+      alert("Vui lòng đăng nhập để mua hàng.");
+      navigate("/login");
+      return;
+    }
     const cartItem = {
       id: drink.id,
       name: drink.name,

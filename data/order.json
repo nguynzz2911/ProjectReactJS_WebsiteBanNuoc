@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "customer": "admin",
+    "item": [
+      {
+        "item_id": 1,
+        "quantity": 3
+      },
+      {
+        "item_id": 2,
+        "quantity": 1
+      },
+      {
+        "item_id": 3,
+        "quantity": 5
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "customer": "user1",
+    "item": [
+      {
+        "item_id": 1,
+        "quantity": 1
+      },
+      {
+        "item_id": 2,
+        "quantity": 3
+      },
+      {
+        "item_id": 3,
+        "quantity": 2
+      }
+    ]
+  }
+]

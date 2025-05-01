@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import "../CSS/Header.css"
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from "../../images/logo.png"
 import Account from "../../images/account.png"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cart from "../../images/cart.png"
-import { Link } from 'react-router-dom'
 
 export default function Header() {
   const [show, setShow] = useState(true);
@@ -12,6 +12,7 @@ export default function Header() {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef(null)
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,6 +52,7 @@ export default function Header() {
     localStorage.removeItem("isLoggedIn");
     setIsLoggedIn(false);
     setShowDropdown(false);
+    navigate("/");
   };
   
   return (
@@ -73,10 +75,21 @@ export default function Header() {
             <Link to={`/news`}><button className='btn'>Tin tức</button></Link>
           </div>
           <div className="col" style={{display:'flex', justifyContent:'center', alignItems:"center"}}>
-            <Link to={`/cart`} style={{textDecoration:'none'}}><button style={{overflow: "hidden", display:'flex', justifyContent:'center', alignItems:"center"}} className='btn'>
+            <button
+              style={{ overflow: "hidden", display: 'flex', justifyContent: 'center', alignItems: "center" }}
+              className='btn'
+              onClick={() => {
+                if (isLoggedIn) {
+                  navigate("/cart");
+                } else {
+                  alert("Vui lòng đăng nhập để sử dụng.");
+                  navigate("/login");
+                }
+              }}
+            >
               Giỏ hàng
-              <img src={Cart} alt="" style={{width:"20%", height:"auto", marginLeft:'20px'}} className='img-fluid'/>
-            </button></Link>
+              <img src={Cart} alt="" style={{ width: "20%", height: "auto", marginLeft: '20px' }} className='img-fluid' />
+            </button>
           </div>
           <div className="col" style={{ display: 'flex', justifyContent: 'center', alignItems: "center" }} ref={dropdownRef}>
           <img src={Account} alt="account" className='img-fluid'

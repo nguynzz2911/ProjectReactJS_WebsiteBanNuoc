@@ -8,7 +8,7 @@ import About from './assets/Pages/AboutUs.jsx'
 import Menu from './assets/Pages/Menu.jsx'
 import Login from './assets/Pages/Login.jsx'  
 import 'bootstrap/dist/css/bootstrap.min.css';
-import drinksData from '../public/data/drinks.json';
+import drinksData from '../data/drinks.json';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import accountData from "../../../public/data/account.json"; // ✅ Import file JSON
+import accountData from "../../../data/account.json"; // ✅ Import file JSON
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";

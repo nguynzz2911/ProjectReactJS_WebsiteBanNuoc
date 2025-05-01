@@ -12,7 +12,7 @@ export default function CartFooter({
       <div className="container-fluid">
         <div className="row justify-content-between align-items-center p-3">
           <div className="col-md-6 d-flex align-items-center">
-            <h5>Tổng tiền: {totalPrice.toLocaleString("vi-VN")} VNĐ</h5>
+            <h5>Tổng tiền: {totalPrice.toString()} VNĐ</h5>
           </div>
           <div className="col text-end">
             <Button variant="primary" onClick={onCheckout}>

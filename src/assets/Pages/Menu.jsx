@@ -48,6 +48,13 @@ export default function Menu({onAddToCart}) {
 
   const handleBuyNow = (drink) => {
     // Tạo một object đại diện cho sản phẩm trong giỏ hàng
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    if (!isLoggedIn) {
+      alert("Vui lòng đăng nhập để mua hàng.");
+      navigate("/login");
+      return;
+    }
     const cartItem = {
       id: drink.id,
       name: drink.name,
@@ -55,6 +62,7 @@ export default function Menu({onAddToCart}) {
       price: drink.price,
     };
     onAddToCart(cartItem);
+    alert(`Đã chọn mua: ${drink.name}`);
   };
 
   return (
@@ -137,7 +145,6 @@ export default function Menu({onAddToCart}) {
                     className="btn btn-primary btn-sm mt-2"
                     onClick={(e) => {
                     e.stopPropagation(); 
-                    alert(`Đã chọn mua: ${drink.name}`);
                     handleBuyNow(drink);
                     }}
                   >
