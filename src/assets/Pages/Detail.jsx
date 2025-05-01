@@ -3,10 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import '../CSS/Detail.css'
+import { useState } from "react";
+import cartIcon from "/src/images/cart.png";
 
 export default function Detail() {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
 
   const drink = state?.drink;
 
@@ -18,6 +21,14 @@ export default function Detail() {
       </div>
     );
   }
+
+  const increaseQuantity = () => {
+    setQuantity(prev => prev + 1);
+  };
+
+  const decreaseQuantity = () => {
+    setQuantity(prev => (prev > 1 ? prev - 1 : 1));
+  };
 
   return (
     <div className="container-fluid">
@@ -36,7 +47,35 @@ export default function Detail() {
               </p>
               <p><strong>Loại:</strong> {drink.type}</p>
               <p><strong>Mô tả:</strong> {drink.description || "Chưa có mô tả."}</p>
-              <button className="btn btn-primary text-white px-4 py-2 mt-3">Mua ngay</button>
+              <div className="mb-3 mt-4">
+                <strong>Số lượng:</strong>
+                <div className="quantity-selector d-flex align-items-center mt-2">
+                  <button className="btn btn-outline-secondary" onClick={decreaseQuantity}>-</button>
+                  <input
+                    type="text"
+                    className="form-control mx-2 text-center"
+                    value={quantity}
+                    readOnly
+                    style={{ width: "60px" }}
+                  />
+                  <button className="btn btn-outline-secondary" onClick={increaseQuantity}>+</button>
+                </div>
+              </div>
+
+              <div className="d-flex gap-3 mt-4">
+              <button className="btn btn-outline-black d-flex align-items-center gap-2">
+  <img src={cartIcon} alt="Cart" style={{ width: "20px", height: "20px" }} />
+  Thêm vào giỏ hàng
+</button>
+
+<button
+  className="btn btn-primary btn-sm mt-2"
+  onClick={() => alert(`Đã chọn mua: ${drink.name}`)}
+>
+  Mua ngay
+</button>
+
+              </div>
 
             </div>
           </div>

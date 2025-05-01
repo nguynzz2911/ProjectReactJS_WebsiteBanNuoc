@@ -30,4 +30,35 @@
     max-height: 400px;
     object-fit: cover;
   }
+  .quantity-selector button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    padding: 0;
+  }
   
+  .quantity-selector input {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .btn-outline-black {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-outline-black:hover {
+    background-color: #f0f0f0;
+    color: black;
+  }
+  .btn.btn-primary {
+    color: white !important;
+  }
+  
+  .btn.btn-primary:hover {
+    color: white !important;
+    background-color: #0056b3;
+  }
+  
+ 
