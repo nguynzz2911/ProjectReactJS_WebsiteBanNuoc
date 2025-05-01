@@ -4,10 +4,6 @@
     "customer": "admin",
     "item": [
       {
-        "item_id": 1,
-        "quantity": 1
-      },
-      {
         "item_id": 2,
         "quantity": 1
       },

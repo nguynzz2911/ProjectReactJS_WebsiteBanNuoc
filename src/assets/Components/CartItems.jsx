@@ -64,6 +64,18 @@ export default function ProductItem({
     }
   }
 
+  const handleDelete = async (id) => {
+    const username = localStorage.getItem("username");
+  
+    // Gọi API xoá bên server
+    await fetch('http://localhost:3001/api/orders/delete-item', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, itemId: id })
+    });
+    onDelete(id)
+  };
+
   const handleIncrease = () => {
     const newQuantity = quantity1 + 1
     setQuantity1(newQuantity)
@@ -82,10 +94,6 @@ export default function ProductItem({
       updateOrderOnServer(newQuantity)
       onQuantityChange(id, newQuantity)
     }
-  }
-
-  const handleDelete = () => {
-    onDelete(id)
   }
 
   return (
@@ -119,7 +127,7 @@ export default function ProductItem({
 
       {/* Nút xóa với biểu tượng thùng rác và nền đỏ */}
       <Col xs={6} md={2} className="text-end mt-2 mt-md-0">
-        <Button variant="danger" onClick={handleDelete} className="w-100">
+        <Button variant="danger" onClick={() => handleDelete(id)} className="w-100">
           <Trash size={20} />
         </Button>
       </Col>
