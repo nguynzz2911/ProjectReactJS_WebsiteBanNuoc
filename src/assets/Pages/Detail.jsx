@@ -4,7 +4,7 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import '../CSS/Detail.css'
 
-export default function Detail() {
+export default function Detail({ onAddToCart }) {
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -18,6 +18,18 @@ export default function Detail() {
       </div>
     );
   }
+
+  const handleBuyNow = () => {
+    // Tạo một object đại diện cho sản phẩm trong giỏ hàng
+    const cartItem = {
+      id: drink.id,
+      name: drink.name,
+      image: drink.image,
+      price: drink.price,
+    };
+    onAddToCart(cartItem);
+    alert(`Đã chọn mua: ${drink.name}`);
+  };
 
   return (
     <div className="container-fluid">
@@ -36,7 +48,7 @@ export default function Detail() {
               </p>
               <p><strong>Loại:</strong> {drink.type}</p>
               <p><strong>Mô tả:</strong> {drink.description || "Chưa có mô tả."}</p>
-              <button className="btn btn-primary text-white px-4 py-2 mt-3">Mua ngay</button>
+              <button className="btn btn-primary text-white px-4 py-2 mt-3" onClick={handleBuyNow} >Mua ngay</button>
 
             </div>
           </div>

@@ -1,5 +1,6 @@
 [
     {
+      "id": 1,
       "name": "TRÀ Ô LONG MỘC HƯƠNG",
       "price": "19,000",
       "image": "/src/images/douong/traolongmochuong.png",
@@ -7,6 +8,7 @@
       "description": "Vị trà ô long thơm nhẹ, hậu ngọt dịu, thích hợp cho những ai yêu vị trà truyền thống."
     },
     {
+      "id": 2,
       "name": "HỒNG TRÀ BÍ ĐAO",
       "price": "19,000",
       "image": "/src/images/douong/hongtrabidao.png",
@@ -14,6 +16,7 @@
       "description": "Sự kết hợp mộc mạc giữa hồng trà đậm vị và bí đao thanh mát, giúp giải nhiệt hiệu quả."
     },
     {
+      "id": 3,
       "name": "TRÀ XANH BÍ ĐAO",
       "price": "19,000",
       "image": "/src/images/douong/traxanhbidao.png",
@@ -21,6 +24,7 @@
       "description": "Vị thanh nhẹ của trà xanh hòa quyện cùng bí đao, thích hợp cho người thích thức uống nhẹ nhàng."
     },
     {
+      "id": 4,
       "name": "TRÀ XANH HOA NHÀI",
       "price": "19,000",
       "image": "/src/images/douong/traxanhhoanhai.png",
@@ -28,6 +32,7 @@
       "description": "Thức uống mang hương hoa nhài tự nhiên, thanh tao và thư giãn."
     },
     {
+      "id": 5,
       "name": "HỒNG TRÀ VẢI THIỀU",
       "price": "19,000",
       "image": "/src/images/douong/hongtravaithieu.png",
@@ -35,6 +40,7 @@
       "description": "Vị đậm đà của hồng trà kết hợp cùng hương vải thiều thơm lừng, ngọt ngào tự nhiên"
     },
     {
+      "id": 6,
       "name": "TRÀ BÍ ĐAO NGÔ GIA",
       "price": "19,000",
       "image": "/src/images/douong/trabidaongogia.png",
@@ -42,6 +48,7 @@
       "description": "Đặc sản với vị ngọt thanh từ bí đao kết hợp công thức truyền thống Ngô Gia."
     },
     {
+      "id": 7,
       "name": "HỒNG TRÀ ĐÀI LOAN",
       "price": "16,000",
       "image": "/src/images/douong/hongtradailoan.png",
@@ -49,6 +56,7 @@
       "description": "Hồng trà nguyên chất từ Đài Loan, hậu vị mạnh mẽ, giá thành cực kỳ phải chăng."
     },
     {
+      "id": 8,
       "name": "TRÀ SỮA Ô LONG",
       "price": "24,000",
       "image": "/src/images/douong/trasuaolong.png",
@@ -56,6 +64,7 @@
       "description": "Trà ô long thơm nồng hoà quyện với vị béo của sữa tạo nên hương vị tròn đầy."
     },
     {
+      "id": 9,
       "name": "TRÀ SỮA KHOAI MÔN NGHIỀN",
       "price": "30,000",
       "image": "/src/images/douong/trasuakhoaimon.png",
@@ -63,6 +72,7 @@
       "description": "Khoai môn nghiền mịn kết hợp trà sữa béo ngậy, món khoái khẩu của nhiều bạn trẻ."
     },
     {
+      "id": 10,
       "name": "TRÀ SỮA UYÊN ƯƠNG",
       "price": "21,000",
       "image": "/src/images/douong/trasuauyenuong.png",
@@ -70,6 +80,7 @@
       "description": "Sự giao thoa tinh tế giữa cà phê và trà, đậm đà mà không quá gắt."
     },
     {
+      "id": 11,
       "name": "SỮA DÂU TÂY",
       "price": "29,000",
       "image": "/src/images/douong/suadautay.png",
@@ -77,6 +88,7 @@
       "description": "Sữa thơm ngon kết hợp dâu tây tươi, ngọt thanh tự nhiên và dễ uống."
     },
     {
+      "id": 12,
       "name": "TRÀ SỮA SOCOLA",
       "price": "28,000",
       "image": "/src/images/douong/trasuasocola.png",
@@ -84,6 +96,7 @@
       "description": "Vị socola ngọt đắng hoà với trà sữa tạo cảm giác ngọt ngào, đầy quyến rũ."
     },
     {
+      "id": 13,
       "name": "TRÀ SỮA TRÂN CHÂU ĐƯỜNG ĐEN",
       "price": "26,000",
       "image": "/src/images/douong/trasuattdd.png",
@@ -91,6 +104,7 @@
       "description": "Trà sữa đậm đà cùng topping trân châu đường đen dai ngon, ngập tràn năng lượng."
     },
     {
+      "id": 14,
       "name": "TRÀ XANH SỮA",
       "price": "24,000",
       "image": "/src/images/douong/traxanhsua.png",
@@ -98,6 +112,7 @@
       "description": "Vị thanh mát của trà xanh kết hợp lớp sữa mịn màng, dị"
     },
     {
+      "id": 15,
       "name": "TRÀ SỮA VẢI THIỀU",
       "price": "24,000",
       "image": "/src/images/douong/trasuavaithieu.png",
@@ -105,6 +120,7 @@
       "description": "Trà sữa béo ngậy kết hợp vị vải thanh mát, thơm dịu và dễ gây nghiện."
     },
     {
+      "id": 16,
       "name": "TRÀ SỮA BÍ ĐAO",
       "price": "24,000",
       "image": "/src/images/douong/trasuabidao.png",
@@ -112,6 +128,7 @@
       "description": "Trà sữa thơm béo kết hợp vị ngọt thanh mát của bí đao, dễ uống và lạ miệng."
     },
     {
+      "id": 17,
       "name": "TRÀ SỮA ĐÀI LOAN",
       "price": "21,000",
       "image": "/src/images/douong/trasuadailoan.png",
@@ -119,6 +136,7 @@
       "description": "Hương vị trà đậm đà kết hợp sữa béo thơm, chuẩn gu trà sữa Đài Loan truyền thống."
     },
     {
+      "id": 18,
       "name": "Ô LONG LATTE",
       "price": "25,000",
       "image": "/src/images/douong/olongmatte.png",
@@ -126,6 +144,7 @@
       "description": "Vị trà ô long đậm đà kết hợp sữa béo nhẹ, thơm dịu và cân bằng."
     },
     {
+      "id": 19,
       "name": "SỮA TƯƠI KHOAI MÔN NGHIỀN",
       "price": "41,000",
       "image": "/src/images/douong/suatuoikhoaimonnghien.png",
@@ -133,6 +152,7 @@
       "description": "Khoai môn thơm bùi hoà quyện sữa tươi, ngậy béo và hấp dẫn."
     },
     {
+      "id": 20,
       "name": "SỮA TƯƠI TRÂN CHÂU ĐƯỜNG ĐEN",
       "price": "44,000",
       "image": "/src/images/douong/suatuoitranchauduongden1.png",
@@ -140,6 +160,7 @@
       "description": "Sữa tươi mát lạnh kèm trân châu dẻo ngọt, đậm vị đường đen."
     },
     {
+      "id": 21,
       "name": "TRÂN CHÂU ĐƯỜNG ĐEN LATTE",
       "price": "35,000",
       "image": "/src/images/douong/suatuoitranchauduongden.png",
@@ -147,6 +168,7 @@
       "description": "Trà sữa ngọt dịu, kèm trân châu đường đen thơm ngon, đầy cuốn hút."
     },
     {
+      "id": 22,
       "name": "TRÀ CHANH LATTE",
       "price": "31,000",
       "image": "/src/images/douong/olongmatte.png",
@@ -154,6 +176,7 @@
       "description": "Vị chanh chua nhẹ kết hợp sữa béo, thanh mát mà lạ miệng."
     },
     {
+      "id": 23,
       "name": "HỒNG TRÀ LATTE VẢI THIỀU",
       "price": "31,000",
       "image": "/src/images/douong/hongtralattevaithieu.png",
@@ -161,6 +184,7 @@
       "description": "Hồng trà đậm vị hoà quyện vải thiều thơm ngọt và sữa béo nhẹ."
     },
     {
+      "id": 24,
       "name": "BÍ ĐAO LATTE",
       "price": "31,000",
       "image": "/src/images/douong/bidaolatte.png",
@@ -168,6 +192,7 @@
       "description": "Bí đao ngọt thanh kết hợp sữa béo, dễ uống và tốt cho cơ thể."
     },
     {
+      "id": 25,
       "name": "HỒNG TRÀ LATTE ĐÀI LOAN",
       "price": "25,000",
       "image": "/src/images/douong/hongtralattedailoan.png",
@@ -175,6 +200,7 @@
       "description": "Vị trà truyền thống đậm đà, phối hợp sữa béo nhẹ nhàng, chuẩn Đài."
     },
     {
+      "id": 26,
       "name": "TRÀ XANH XANH",
       "price": "24,000",
       "image": "/src/images/douong/traxanhchanh.png",
@@ -182,6 +208,7 @@
       "description": "Trà xanh thanh mát, điểm chanh nhẹ nhàng, sảng khoái tức thì."
     },
     {
+      "id": 27,
       "name": "HỒNG TRÀ CHANH VẢI THIỀU",
       "price": "24,000",
       "image": "/src/images/douong/hongtrachanhvaithieu.png",
@@ -189,6 +216,7 @@
       "description": "Hồng trà kết hợp vị chanh và vải thơm ngọt, tươi mát tự nhiên."
     },
     {
+      "id": 28,
       "name": "BÍ ĐAO CHANH",
       "price": "24,000",
       "image": "/src/images/douong/bidaochanh.png",
@@ -196,6 +224,7 @@
       "description": "Bí đao thanh mát hoà cùng chanh nhẹ, giải nhiệt tuyệt vời."
     },
     {
+      "id": 29,
       "name": "HỒNG TRÀ CHANH ĐÀI LOAN",
       "price": "21,000",
       "image": "/src/images/douong/hongtrachanhdailoan.png",
@@ -203,6 +232,7 @@
       "description": "Hồng trà chanh vị đậm truyền thống, chua ngọt vừa phải."
     },
     {
+      "id": 30,
       "name": "Ô LONG XOÀI",
       "price": "30,000",
       "image": "/src/images/douong/olongxoai.png",
@@ -210,6 +240,7 @@
       "description": "Trà ô long kết hợp xoài chín mọng, thơm ngọt và hấp dẫn."
     },
     {
+      "id": 31,
       "name": "Ô LONG NHO",
       "price": "30,000",
       "image": "/src/images/douong/olongnho.png",
@@ -217,6 +248,7 @@
       "description": "Vị trà dịu hoà cùng nho ngọt mát, dễ uống và tươi mới."
     },
     {
+      "id": 32,
       "name": "Ô LONG THƠM",
       "price": "29,000",
       "image": "/src/images/douong/olongthom.png",
@@ -224,6 +256,7 @@
       "description": "Ô long quyện cùng dứa chua ngọt, thơm mát và nổi bật."
     },
     {
+      "id": 33,
       "name": "DƯƠNG CHI CAM LỘ",
       "price": "33,000",
       "image": "/src/images/douong/duongchicamlo.png",
@@ -231,6 +264,7 @@
       "description": "Thức uống thanh mát với cam tươi, bưởi và hạt chia bổ dưỡng."
     },
     {
+      "id": 34,
       "name": "Ô LONG Ô MAI CHANH DÂY",
       "price": "27,000",
       "image": "/src/images/douong/olongomaichanhday.png",
@@ -238,6 +272,7 @@
       "description": "Vị ô mai mặn nhẹ kết hợp chanh dây chua ngọt, độc đáo khó quên."
     },
     {
+      "id": 35,
       "name": "TRÀ XANH Ô MAI CHANH DÂY",
       "price": "27,000",
       "image": "/src/images/douong/traxanhomaichanhday.png",
@@ -245,6 +280,7 @@
       "description": "Trà xanh tươi mới kết hợp ô mai và chanh dây, chua dịu thanh mát."
     },
     {
+      "id": 36,
       "name": "TRÀ Ô LONG ĐÀO",
       "price": "29,000",
       "image": "/src/images/douong/traolongdao.png",
@@ -252,6 +288,7 @@
       "description": "Ô long đậm vị quyện đào ngọt thơm, thanh thoát và dễ chịu."
     },
     {
+      "id": 37,
       "name": "MÀU HỒNG LÃNG MẠN",
       "price": "29,000",
       "image": "/src/images/douong/mauhonglangman.png",
@@ -259,6 +296,7 @@
       "description": "Thức uống trái cây ngọt nhẹ, màu sắc rực rỡ và hương vị tươi vui."
     },
     {
+      "id": 38,
       "name": "TRÀ XANH ĐÀO NGÔ GIA",
       "price": "29,000",
       "image": "/src/images/douong/traxanhdaongogia.png",
@@ -266,6 +304,7 @@
       "description": "Trà xanh phối đào thơm nhẹ, dịu ngọt và cuốn hút."
     },
     {
+      "id": 39,
       "name": "HỒNG TRÀ ĐÀO NGÔ GIA",
       "price": "29,000",
       "image": "/src/images/douong/hongtradaongogia.png",
