@@ -7,12 +7,13 @@ export default function CartFooter({
     totalPrice = 0,
     onCheckout = () => {},
   }) {
+    
   return (
     <div className="fixed-bottom bg-light border-top"> {/* Thêm class fixed-bottom và background */}
       <div className="container-fluid">
         <div className="row justify-content-between align-items-center p-3">
           <div className="col-md-6 d-flex align-items-center">
-            <h5>Tổng tiền: {totalPrice.toString()} VNĐ</h5>
+            <h5>Tổng tiền: {totalPrice.toString()},000 VNĐ</h5>
           </div>
           <div className="col text-end">
             <Button variant="primary" onClick={onCheckout}>

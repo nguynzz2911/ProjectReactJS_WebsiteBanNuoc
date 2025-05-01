@@ -8,6 +8,7 @@ import products from '../../../data/drinks.json';
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     const username = localStorage.getItem("username"); // Lưu ý bạn phải lưu username khi đăng nhập
@@ -16,10 +17,9 @@ export default function Cart() {
     // Tìm đơn hàng của user
     const userOrder = orders.find(order => order.customer === username);
     if (!userOrder) return;
-
     // Ghép thông tin sản phẩm và số lượng
     const mergedItems = userOrder.item.map(({ item_id, quantity }) => {
-      const product = products.find(p => p.id === item_id);
+      const product = products.find(p => p.id === item_id);// Cập nhật tổng giá tiền
       return {
         id: item_id,
         name: product?.name || "Không rõ",
@@ -29,8 +29,19 @@ export default function Cart() {
       };
     });
 
-    setCart(mergedItems);
+    setCart(mergedItems);    
   }, []);
+
+  useEffect(() => {
+    let newTotal = 0;
+  
+    cart.forEach(item => {
+      const price = Number(item.price.toString().replace(/,/g, "")) / 1000;
+      newTotal += price * item.quantity;
+    });
+  
+    setTotalPrice(newTotal);
+  }, [cart]);
 
   const handleDelete = (id) => {
     setCart(prevItems => prevItems.filter(item => item.id !== id));
@@ -42,10 +53,6 @@ export default function Cart() {
         item.id === id ? { ...item, quantity: newQuantity } : item
       )
     );
-  };
-
-  const calculateTotalPrice = () => {
-    return cart.reduce((total, item) => total + Number(item.price) * item.quantity, 0);
   };
 
   return (
@@ -65,7 +72,7 @@ export default function Cart() {
           ))
         )}
       </div>
-      <Footer totalPrice={calculateTotalPrice()} />
+      <Footer totalPrice={totalPrice} />
     </div>
   );
 }
