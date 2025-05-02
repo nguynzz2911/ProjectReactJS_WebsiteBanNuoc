@@ -58,13 +58,13 @@ export default function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-    
+
         // Tìm tên đầy đủ của tỉnh, huyện, xã từ mã đã chọn
         const selectedProvinceObj = provinces.find(p => p.Code === selectedProvince);
         const selectedDistrictObj = districts.find(d => d.Code === selectedDistrict);
         const selectedWardObj = wards.find(w => w.Code === formData.phuongxa);
-        
-    
+
+
         // Tạo object hoàn chỉnh với địa chỉ rõ ràng
         const fullFormData = {
             ...formData,
@@ -75,7 +75,7 @@ export default function Signup() {
             ngaytao: new Date().toISOString().split("T")[0], // định dạng YYYY-MM-DD
             trangthai: "active"
         };
-    
+
         try {
             const response = await fetch("https://67cd3719dd7651e464edabb9.mockapi.io/account", {
                 method: "POST",
@@ -84,12 +84,30 @@ export default function Signup() {
                 },
                 body: JSON.stringify(fullFormData)
             });
-    
+
             if (!response.ok) {
                 throw new Error("Lỗi khi gửi dữ liệu lên máy chủ.");
             }
-    
-            const data = await response.json();
+
+            const userData = await response.json(); // trả về thông tin người dùng vừa tạo
+
+            // ✅ Tạo giỏ hàng rỗng cho người dùng vừa đăng ký
+            const cart = {
+                customer: userData.tendn, // tên đăng nhập vừa tạo
+                item: [] // mảng sản phẩm rỗng
+            };
+
+            const cartRes = await fetch("https://67cd3719dd7651e464edabb9.mockapi.io/order", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(cart)
+            });
+
+            if (!cartRes.ok) {
+                throw new Error("Lỗi khi tạo giỏ hàng.");
+            }
             alert("Đăng ký thành công");
             navigate("/login");
         } catch (error) {
@@ -99,8 +117,8 @@ export default function Signup() {
             setLoading(false);
         }
     };
-    
-    
+
+
     return (
         <>
             <div className="container-fluid">
