@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Button } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom'
 import "../CSS/Home.css"
 import Header from '../Components/Header';
@@ -22,6 +23,7 @@ export default function Home() {
   const [nen2, setNen2] = useState(mau1[1]);
   const [nen3, setNen3] = useState(mau1[2]);
   const [nen4, setNen4] = useState(mau1[3]);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -45,16 +47,16 @@ export default function Home() {
                   <img src={img[so]} alt="" style={{width: '100%', height: 'auto', border: "2px solid grey", borderRadius: "5%"}}/>
                 </div>
                 <div className="col">
-                  <div className="row mon mon1" onMouseOver={() => {setSo(0), setNen1(mau[0])}} onMouseLeave={() => setNen1(mau1[0])} style={{backgroundColor: `${nen1}`}}>
+                  <div className="row mon mon1" onMouseOver={() => {setSo(0), setNen1(mau[0])}} onMouseLeave={() => setNen1(mau1[0])} style={{backgroundColor: `${nen1}`}} onClick={() => navigate(`/menu`)}>
                     <h2 className='monTitle'>Trà ô long bí đao</h2>
                   </div>
-                  <div className="row mon mon2" onMouseOver={() => {setSo(1), setNen2(mau[1])}} onMouseLeave={() => setNen2(mau1[1])} style={{backgroundColor: `${nen2}`}}>
+                  <div className="row mon mon2" onMouseOver={() => {setSo(1), setNen2(mau[1])}} onMouseLeave={() => setNen2(mau1[1])} style={{backgroundColor: `${nen2}`}} onClick={() => navigate(`/menu`)}>
                     <h2 className='monTitle'>Trà bát bảo ngọt</h2>
                   </div>
-                  <div className="row mon mon3" onMouseOver={() => {setSo(2), setNen3(mau[2])}} onMouseLeave={() => setNen3(mau1[2])} style={{backgroundColor: `${nen3}`}}>
+                  <div className="row mon mon3" onMouseOver={() => {setSo(2), setNen3(mau[2])}} onMouseLeave={() => setNen3(mau1[2])} style={{backgroundColor: `${nen3}`}} onClick={() => navigate(`/menu`)}>
                     <h2 className='monTitle'>Trà bát bảo chua</h2>
                   </div>
-                  <div className="row mon mon4" onMouseOver={() => {setSo(3), setNen4(mau[3])}} onMouseLeave={() => setNen4(mau1[3])} style={{backgroundColor: `${nen4}`}}>
+                  <div className="row mon mon4" onMouseOver={() => {setSo(3), setNen4(mau[3])}} onMouseLeave={() => setNen4(mau1[3])} style={{backgroundColor: `${nen4}`}} onClick={() => navigate(`/menu`)}>
                     <h2 className='monTitle'>Hồng trà kem tươi</h2>
                   </div>
                 </div>
