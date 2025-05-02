@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Row, Col, Image, Button, InputGroup, Form } from "react-bootstrap"
 import { Trash } from "react-bootstrap-icons"
 
@@ -17,6 +17,18 @@ export default function ProductItem({
   const [quantity1, setQuantity1] = useState(Number(quantity))
   const parsedPrice = parseFloat(price) || 0
   const [gia, setGia] = useState(parsedPrice * quantity1)
+
+  const [data, setData] = useState([])
+
+    useEffect(() => {
+      const username = localStorage.getItem("username");
+      if (!username) return;
+    
+      fetch('https://67cd3719dd7651e464edabb9.mockapi.io/order')
+        .then(res => res.json())
+        .then(data => setData(data))
+        .catch(err => console.log(err));
+    }, []);
 
   const updateOrderInLocalStorage = (updatedQuantity) => {
     // Lấy thông tin đơn hàng hiện tại từ localStorage
@@ -64,13 +76,100 @@ export default function ProductItem({
     }
   }
 
+  const updateOrderOnServerAPI = async (updatedQuantity) => {
+    const username = localStorage.getItem("username");
+    if (!username) return;
+  
+    try {
+      const response = await fetch("https://67cd3719dd7651e464edabb9.mockapi.io/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username,
+          item_id: id,
+          newQuantity: updatedQuantity
+        })
+      });
+  
+      const result = await response.json();
+      if (!result.success) {
+        console.error("Lỗi cập nhật:", result.message);
+      }
+    } catch (error) {
+      console.error("Lỗi kết nối server:", error);
+    }
+  }
+
+  // const handleDelete = async (id) => {
+  //   const username = localStorage.getItem("username");
+  
+  //   // Gọi API xoá bên server
+  //   await fetch('http://localhost:3001/api/orders/delete-item', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ username, itemId: id })
+  //   });
+  //   onDelete(id)
+  // };
+
+  const handleDelete = async (id) => {
+    if (!id) return;
+    const username = localStorage.getItem("username");
+    const userOrder = data.find(order => order.customer === username);
+    const orderId = userOrder ? userOrder.id : null;
+    if (!orderId) return;
+    try {
+      const res = await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/order/${orderId}`); // Updated to use orderId instead of id
+      const order = await res.json();
+
+      const updatedItems = order.item.filter(item => item.item_id !== id);
+
+      await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/order/${orderId}`, { // Updated to use orderId instead of id
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...order, item: updatedItems })
+      });
+      onDelete(id); // Call the onDelete function passed as a prop
+      // setCart(prevItems => prevItems.filter(item => item.id !== id));
+    } catch (error) {
+      console.error("Xóa sản phẩm thất bại:", error);
+    }
+  };
+
+  const handleQuantityChange = async (id, newQuantity) => {
+    if (!id) return;
+    const username = localStorage.getItem("username");
+    const userOrder = data.find(order => order.customer === username);
+    const orderId = userOrder ? userOrder.id : null;
+    if (!orderId) return;
+    try {
+      const res = await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/order/${orderId}`); // Updated to use orderId instead of id
+      const order = await res.json();
+
+      const updatedItems = order.item.map(item =>
+        item.item_id === id ? { ...item, quantity: newQuantity } : item
+      );
+
+      await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/order/${orderId}`, { // Updated to use orderId instead of id
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...order, item: updatedItems })
+      });
+
+      onQuantityChange(id, newQuantity); // Call the onQuantityChange function passed as a prop
+    } catch (error) {
+      console.error("Cập nhật số lượng thất bại:", error);
+    }
+  };
+
   const handleIncrease = () => {
     const newQuantity = quantity1 + 1
     setQuantity1(newQuantity)
     setGia(parsedPrice * newQuantity)
     updateOrderInLocalStorage(newQuantity)
-    updateOrderOnServer(newQuantity)
+    // updateOrderOnServer(newQuantity)
     onQuantityChange(id, newQuantity)
+    handleQuantityChange(id, newQuantity)
   }
 
   const handleDecrease = () => {
@@ -79,13 +178,9 @@ export default function ProductItem({
       setQuantity1(newQuantity)
       setGia(parsedPrice * newQuantity)
       updateOrderInLocalStorage(newQuantity)
-      updateOrderOnServer(newQuantity)
-      onQuantityChange(id, newQuantity)
+      // updateOrderOnServer(newQuantity)
+      handleQuantityChange(id, newQuantity)
     }
-  }
-
-  const handleDelete = () => {
-    onDelete(id)
   }
 
   return (
@@ -119,7 +214,7 @@ export default function ProductItem({
 
       {/* Nút xóa với biểu tượng thùng rác và nền đỏ */}
       <Col xs={6} md={2} className="text-end mt-2 mt-md-0">
-        <Button variant="danger" onClick={handleDelete} className="w-100">
+        <Button variant="danger" onClick={() => handleDelete(id)} className="w-100">
           <Trash size={20} />
         </Button>
       </Col>

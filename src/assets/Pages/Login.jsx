@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import accountData from "../../../data/account.json"; // ✅ Import file JSON
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../Components/Header";
@@ -27,6 +27,33 @@ export default function Login() {
     }
   };
 
+  const handleLoginAPI = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("https://67cd3719dd7651e464edabb9.mockapi.io/account");
+      if (!response.ok) {
+        throw new Error("Không thể lấy dữ liệu tài khoản.");
+      }
+
+      const accountList = await response.json();
+      const user = accountList.find(
+        (acc) => acc.tendn === tendn && acc.matkhau === matkhau
+      );
+
+      if (user) {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", tendn);
+        navigate("/");
+      } else {
+        setError("Tên đăng nhập hoặc mật khẩu không đúng");
+      }
+    } catch (err) {
+      console.error("Lỗi đăng nhập:", err);
+      setError("Đã xảy ra lỗi khi đăng nhập. Vui lòng thử lại.");
+    }
+  };
+
   return (
     <>
         <div className="container-fluid">
@@ -36,7 +63,7 @@ export default function Login() {
         <div className="content" style={{ maxWidth: "400px", justifyContent: "center", margin: "auto", marginTop: "150px" }}>
         <h3 className="mb-4 text-center">Đăng nhập</h3>
       {error && <div className="alert alert-danger">{error}</div>}
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLoginAPI}>
         <div className="form-group mb-3">
           <label>Tên đăng nhập</label>
           <input
@@ -60,6 +87,11 @@ export default function Login() {
         <button type="submit" className="btn btn-primary w-100">
           Đăng nhập
         </button>
+        <Link to={"/signup"}>
+          <button type="button" className="btn btn-secondary w-100">
+            Đăng ký
+          </button>
+        </Link>
       </form>
         </div>
         <div className="footer">

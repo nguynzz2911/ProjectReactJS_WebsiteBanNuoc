@@ -4,15 +4,19 @@
     "customer": "admin",
     "item": [
       {
-        "item_id": 1,
-        "quantity": 1
-      },
-      {
         "item_id": 2,
         "quantity": 1
       },
       {
-        "item_id": 3,
+        "item_id": 20,
+        "quantity": 1
+      },
+      {
+        "item_id": 23,
+        "quantity": 1
+      },
+      {
+        "item_id": 22,
         "quantity": 1
       }
     ]
