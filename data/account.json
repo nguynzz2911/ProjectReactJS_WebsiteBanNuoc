@@ -1,0 +1,4 @@
+[
+    { "id": 1, "tendn": "admin", "matkhau": "123456" },
+    { "id": 2, "tendn": "user1", "matkhau": "password1" }
+  ]

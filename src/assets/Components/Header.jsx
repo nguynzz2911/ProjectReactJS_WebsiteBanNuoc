@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import "../CSS/Header.css"
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from "../../images/logo.png"
 import Account from "../../images/account.png"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Cart from "../../images/cart.png"
-import { Link } from 'react-router-dom'
 
 export default function Header() {
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [showDropdown, setShowDropdown] = useState(false)
+  const dropdownRef = useRef(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,6 +33,28 @@ export default function Header() {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown)
+  }
+
+  useEffect(() => {
+    // Đảm bảo cập nhật trạng thái đăng nhập khi reload hoặc từ trang khác
+    const checkLogin = () => {
+      setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    };
+    checkLogin();
+    window.addEventListener("storage", checkLogin); // Nếu bạn có nhiều tab
+    return () => window.removeEventListener("storage", checkLogin);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+    setShowDropdown(false);
+    navigate("/");
+  };
+  
   return (
     <>
       <div className={`header-container sticky-top ${show ? 'show' : 'hide'}`}>
@@ -49,15 +75,43 @@ export default function Header() {
             <Link to={`/news`}><button className='btn'>Tin tức</button></Link>
           </div>
           <div className="col" style={{display:'flex', justifyContent:'center', alignItems:"center"}}>
-            <Link to={`/cart`} style={{textDecoration:'none'}}><button style={{overflow: "hidden", display:'flex', justifyContent:'center', alignItems:"center"}} className='btn'>
+            <button
+              style={{ overflow: "hidden", display: 'flex', justifyContent: 'center', alignItems: "center" }}
+              className='btn'
+              onClick={() => {
+                if (isLoggedIn) {
+                  navigate("/cart");
+                } else {
+                  alert("Vui lòng đăng nhập để sử dụng.");
+                  navigate("/login");
+                }
+              }}
+            >
               Giỏ hàng
-              <img src={Cart} alt="" style={{width:"20%", height:"auto", marginLeft:'20px'}} className='img-fluid'/>
-            </button></Link>
+              <img src={Cart} alt="" style={{ width: "20%", height: "auto", marginLeft: '20px' }} className='img-fluid' />
+            </button>
           </div>
-          <div className="col" style={{display:'flex', justifyContent:'center', alignItems:"center"}}>
-            <img src={Account} alt="" className='img-fluid' style={{width:"30%", height:"auto"}}/>
-          </div>
-        </div> 
+          <div className="col" style={{ display: 'flex', justifyContent: 'center', alignItems: "center" }} ref={dropdownRef}>
+          <img src={Account} alt="account" className='img-fluid'
+            style={{ width: "30%", height: "auto", cursor: "pointer" }}
+            onClick={toggleDropdown} />
+        </div>
+
+        {showDropdown && (
+          <div className="account-dropdown">
+            {!isLoggedIn ? (
+              <Link to="/login" className="dropdown-item">Đăng nhập</Link>
+            ) : (
+              <>
+                <Link to="/account" className="dropdown-item">Tài khoản</Link>
+                <span onClick={handleLogout} className="dropdown-item" style={{ cursor: "pointer" }}>
+                  Đăng xuất
+                </span>
+              </>
+            )}
+          </div> 
+        )}
+        </div>
       </div>
     </>
   )

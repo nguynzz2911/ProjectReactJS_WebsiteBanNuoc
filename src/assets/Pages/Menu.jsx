@@ -6,7 +6,7 @@ import Footer from "../Components/Footer";
 import "../CSS/Orders.css";
 import Logo from "../../images/logo.png";
 
-export default function Menu() {
+export default function Menu({onAddToCart}) {
   const [drinks, setDrinks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPrice, setSelectedPrice] = useState("");
@@ -44,6 +44,25 @@ export default function Menu() {
 
   const handleCardClick = (drink) => {
     navigate(`/detail/${drink.id}`, { state: { drink } });
+  };
+
+  const handleBuyNow = (drink) => {
+    // Tạo một object đại diện cho sản phẩm trong giỏ hàng
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    if (!isLoggedIn) {
+      alert("Vui lòng đăng nhập để mua hàng.");
+      navigate("/login");
+      return;
+    }
+    const cartItem = {
+      id: drink.id,
+      name: drink.name,
+      image: drink.image,
+      price: drink.price,
+    };
+    onAddToCart(cartItem);
+    alert(`Đã chọn mua: ${drink.name}`);
   };
 
   return (
@@ -110,7 +129,7 @@ export default function Menu() {
             <p className="text-center">Không tìm thấy đồ uống phù hợp.</p>
           ) : (
             filteredDrinks.map((drink, index) => (
-              <div className="col" key={index}>
+              <div className="col" key={drink.id}>
                 <div
                   className="card h-100 shadow-sm rounded-3"
                   style={{ cursor: "pointer" }}
@@ -118,20 +137,20 @@ export default function Menu() {
                 >
                   <img src={drink.image} alt={drink.name} className="card-img-top" />
                   <div className="card-body text-center">
-  <h5 className="card-title fw-bold">{drink.name}</h5>
-  <p className="card-price text-danger fw-bold">
-    {Number(drink.price.replace(/,/g, "")).toLocaleString()} đ
-  </p>
-  <button
-    className="btn btn-primary btn-sm mt-2"
-    onClick={(e) => {
-      e.stopPropagation(); 
-      alert(`Đã chọn mua: ${drink.name}`);
-    }}
-  >
-    Mua ngay
-  </button>
-</div>
+                  <h5 className="card-title fw-bold">{drink.name}</h5>
+                  <p className="card-price text-danger fw-bold">
+                    {Number(drink.price.replace(/,/g, "")).toLocaleString()} đ
+                  </p>
+                  <button
+                    className="btn btn-primary btn-sm mt-2"
+                    onClick={(e) => {
+                    e.stopPropagation(); 
+                    handleBuyNow(drink);
+                    }}
+                  >
+                    Mua ngay
+                  </button>
+                  </div>
 
                 </div>
               </div>

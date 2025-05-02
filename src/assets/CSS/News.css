@@ -1,0 +1,39 @@
+
+.news-section .card {
+    display: flex;
+    flex-direction: column;
+    height: 250px !important;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.news-section .card img {
+    height: 250px !important; 
+    object-fit: cover; 
+    width: 100%;
+}
+
+
+.news-section .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    flex-grow: 1; 
+    overflow: hidden;
+}
+
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    height: 130px; 
+    margin-bottom: 1rem; 
+    border: 1px solid #ddd; 
+    border-radius: 0.5rem; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+  }

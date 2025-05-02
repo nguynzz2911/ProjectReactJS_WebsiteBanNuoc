@@ -43,3 +43,40 @@
     cursor: pointer;
     border-radius: 4px;
 }
+
+.account-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    z-index: 1000;
+    overflow: hidden;
+  }
+  
+  .dropdown-item {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #f5f5f5;
+  }
+  
+  /* Existing styles for header show/hide */
+  .header-container {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .header-container.hide {
+    transform: translateY(-100%);
+  }
+  
+  .header-container.show {
+    transform: translateY(0);
+  }
