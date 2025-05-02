@@ -59,6 +59,92 @@ export default function Signup() {
         e.preventDefault();
         setLoading(true);
 
+        const usernameRegex = /^\S+$/;
+        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+        const phoneRegex = /^0\d{9}$/;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const today = new Date();
+    const dob = new Date(formData.ngaysinh);
+    const age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    const dayDiff = today.getDate() - dob.getDate();
+
+    if (!usernameRegex.test(formData.tendn)) {
+        alert("Tên đăng nhập không được chứa khoảng trắng.");
+        setLoading(false);
+        return;
+    }
+
+    if (!passwordRegex.test(formData.matkhau)) {
+        alert("Mật khẩu phải có ít nhất 8 ký tự, ít nhất 1 chữ in hoa, 1 số và 1 ký tự đặc biệt.");
+        setLoading(false);
+        return;
+    }
+
+    if (!phoneRegex.test(formData.sdt)) {
+        alert("Số điện thoại không hợp lệ.");
+        setLoading(false);
+        return;
+    }
+
+    if (!emailRegex.test(formData.email)) {
+        alert("Email không hợp lệ. Vui lòng nhập đúng định dạng.");
+        setLoading(false);
+        return;
+    }
+
+    if (
+        dob > today ||
+        age < 16 ||
+        (age === 16 && (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)))
+    ) {
+        alert("Ngày sinh không hợp lệ. Người dùng phải đủ 16 tuổi.");
+        setLoading(false);
+        return;
+    }
+
+    if (!formData.hoten.trim()) {
+        alert("Họ tên không được để trống.");
+        setLoading(false);
+        return;
+    }
+    
+    if (!/^\d+$/.test(formData.soNha.trim())) {
+        alert("Số nhà phải là số và không được để trống.");
+        setLoading(false);
+        return;
+    }
+    
+    
+    if (!formData.duong.trim()) {
+        alert("Tên đường không được để trống.");
+        setLoading(false);
+        return;
+    }
+    if (!selectedProvince) {
+        alert("Vui lòng chọn Tỉnh/Thành phố.");
+        setLoading(false);
+        return;
+    }
+    if (!selectedDistrict) {
+        alert("Vui lòng chọn Quận/Huyện.");
+        setLoading(false);
+        return;
+    }
+
+    if (!formData.phuongxa) {
+        alert("Vui lòng chọn Phường/Xã.");
+        setLoading(false);
+        return;
+    }
+    
+  
+    
+  
+
+
         // Tìm tên đầy đủ của tỉnh, huyện, xã từ mã đã chọn
         const selectedProvinceObj = provinces.find(p => p.Code === selectedProvince);
         const selectedDistrictObj = districts.find(d => d.Code === selectedDistrict);
