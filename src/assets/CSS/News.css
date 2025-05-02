@@ -1,5 +1,5 @@
 
-.news-section .card {
+.news-section .card1 {
     display: flex;
     flex-direction: column;
     height: 250px !important;
@@ -10,14 +10,14 @@
     overflow: hidden;
 }
 
-.news-section .card img {
+.news-section .card1 img {
     height: 250px !important; 
     object-fit: cover; 
     width: 100%;
 }
 
 
-.news-section .card-body {
+.news-section .card-body1 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -27,7 +27,7 @@
 }
 
 
-  .card {
+  .card1 {
     display: flex;
     flex-direction: column;
     height: 130px; 

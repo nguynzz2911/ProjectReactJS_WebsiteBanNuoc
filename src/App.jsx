@@ -9,7 +9,7 @@ import Menu from './assets/Pages/Menu.jsx'
 import Login from './assets/Pages/Login.jsx'  
 import Signup from './assets/Pages/Signup.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import drinksData from '../data/drinks.json';
+// import drinksData from '../data/drinks.json';
 import NewsDetail from './assets/Pages/NewsDetail';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
