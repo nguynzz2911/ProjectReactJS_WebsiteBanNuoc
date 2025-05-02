@@ -1,4 +1,39 @@
 [
-    { "id": 1, "tendn": "admin", "matkhau": "123456" },
-    { "id": 2, "tendn": "user1", "matkhau": "password1" }
-  ]
+    { "id": 1, 
+    "tendn": "admin", 
+    "matkhau": "123456",
+    "quyen": "admin",
+    "hoten": "Nguyễn Văn A",
+    "ngaysinh": "1990-01-01",
+    "sdt": "0123456789",
+    "email": "admin@example.com",
+    "soNha": "123",
+    "duong": "Đường Hà Đặc",
+    "phuongxa": "Phường Trung Mỹ Tây",
+    "quanhuyen": "Quận 12",
+    "thanhpho": "TP.HCM",
+    "quocgia": "Việt Nam",
+    "ngaytao": "2023-01-01",
+    "trangthai": "active",
+    "gioitinh": "Nam"
+    },
+
+    { "id": 2, 
+    "tendn": "user1", 
+    "matkhau": "password1",
+    "quyen": "user",
+    "hoten": "Nguyễn Văn B",
+    "ngaysinh": "1992-02-02",
+    "sdt": "0987654321",
+    "email": "user1@example.com",
+    "soNha": "456",
+    "duong": "Đường Lê Văn Khương",
+    "phuongxa": "Phường Tân Thới Nhất",
+    "quanhuyen": "Quận 12",
+    "thanhpho": "TP.HCM",
+    "quocgia": "Việt Nam",
+    "ngaytao": "2023-02-01",
+    "trangthai": "active",
+    "gioitinh": "Nam"
+    }
+]

@@ -76,6 +76,65 @@ export default function Detail({ onAddToCart}) {
     }
   };
 
+  const handleBuyNowAPI = async () => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const username = localStorage.getItem("username");
+  
+    if (!isLoggedIn || !username) {
+      alert("Vui lòng đăng nhập để mua hàng.");
+      navigate("/login");
+      return;
+    }
+  
+    try {
+      // 1) Lấy tất cả orders
+      const resAll = await fetch("https://67cd3719dd7651e464edabb9.mockapi.io/order");
+      const allOrders = await resAll.json();
+  
+      // 2) Tìm đơn hàng của user
+      const userOrder = allOrders.find(o => o.customer === username);
+      if (!userOrder) {
+        alert("Bạn chưa có giỏ hàng, vui lòng thực hiện thêm lần đầu qua trang Giỏ hàng.");
+        return;
+      }
+  
+      // 3) Cập nhật mảng item
+      let updatedItems;
+      const existingItem = userOrder.item.find(i => i.item_id === drink.id);
+      if (existingItem) {
+        updatedItems = userOrder.item.map(i =>
+          i.item_id === drink.id ? { ...i, quantity: i.quantity + 1 } : i
+        );
+      } else {
+        updatedItems = [
+          ...userOrder.item,
+          { item_id: drink.id, quantity: 1 }
+        ];
+      }
+  
+      // 4) Gửi PUT lên MockAPI để cập nhật
+      const resUpdate = await fetch(
+        `https://67cd3719dd7651e464edabb9.mockapi.io/order/${userOrder.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            customer: username,
+            item: updatedItems
+          })
+        }
+      );
+  
+      if (!resUpdate.ok) throw new Error("Update order failed");
+  
+      alert(`Đã thêm ${drink.name} vào giỏ hàng của bạn.`);
+    } catch (err) {
+      console.error("Lỗi khi cập nhật giỏ hàng:", err);
+      alert("Không thể cập nhật giỏ hàng. Vui lòng thử lại sau.");
+    }
+  };
+  
+
   return (
     <div className="container-fluid">
       <Header />
@@ -93,7 +152,7 @@ export default function Detail({ onAddToCart}) {
               </p>
               <p><strong>Loại:</strong> {drink.type}</p>
               <p><strong>Mô tả:</strong> {drink.description || "Chưa có mô tả."}</p>
-              <button className="btn btn-primary text-white px-4 py-2 mt-3" onClick={handleBuyNow} >Mua ngay</button>
+              <button className="btn btn-primary text-white px-4 py-2 mt-3" onClick={handleBuyNowAPI} >Mua ngay</button>
 
             </div>
           </div>

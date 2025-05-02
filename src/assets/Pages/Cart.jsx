@@ -9,28 +9,34 @@ import products from '../../../data/drinks.json';
 export default function Cart() {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [data, setData] = useState([])
 
-  useEffect(() => {
-    const username = localStorage.getItem("username"); // Lưu ý bạn phải lưu username khi đăng nhập
-    if (!username) return;
-
-    // Tìm đơn hàng của user
-    const userOrder = orders.find(order => order.customer === username);
-    if (!userOrder) return;
-    // Ghép thông tin sản phẩm và số lượng
-    const mergedItems = userOrder.item.map(({ item_id, quantity }) => {
-      const product = products.find(p => p.id === item_id);
-      return {
-        id: item_id,
-        name: product?.name || "Không rõ",
-        price: product?.price || "0",
-        image: product?.image || "",
-        quantity,
-      };
-    });
-
-    setCart(mergedItems);    
-  }, []);
+    useEffect(() => {
+      const username = localStorage.getItem("username");
+      if (!username) return;
+    
+      fetch('https://67cd3719dd7651e464edabb9.mockapi.io/order')
+        .then(res => res.json())
+        .then(data => {
+          const userOrder = data.find(order => order.customer === username);
+          if (!userOrder) return;
+    
+          const mergedItems = userOrder.item.map(({ item_id, quantity }) => {
+            const product = products.find(p => p.id === item_id);
+            return {
+              id: item_id,
+              name: product?.name || "Không rõ",
+              price: product?.price || "0",
+              image: product?.image || "",
+              quantity,
+            };
+          });
+    
+          setCart(mergedItems);
+        })
+        .catch(err => console.log(err));
+    }, []);
+    
 
   useEffect(() => {
     let newTotal = 0;
@@ -47,6 +53,27 @@ export default function Cart() {
     setCart(prevItems => prevItems.filter(item => item.id !== id));
   };
 
+  // const handleDelete = async (id) => {
+  //   if (!orderId) return;
+
+  //   try {
+  //     const res = await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/order/${orderId}`);
+  //     const order = await res.json();
+
+  //     const updatedItems = order.item.filter(item => item.item_id !== id);
+
+  //     await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/order/${orderId}`, {
+  //       method: 'PUT',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ ...order, item: updatedItems })
+  //     });
+
+  //     setCart(prevItems => prevItems.filter(item => item.id !== id));
+  //   } catch (error) {
+  //     console.error("Xóa sản phẩm thất bại:", error);
+  //   }
+  // };
+
   const handleQuantityChange = (id, newQuantity) => {
     setCart(prevItems =>
       prevItems.map(item =>
@@ -54,6 +81,33 @@ export default function Cart() {
       )
     );
   };
+
+  // const handleQuantityChange = async (id, newQuantity) => {
+  //   if (!orderId) return;
+
+  //   try {
+  //     const res = await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/order/${orderId}`);
+  //     const order = await res.json();
+
+  //     const updatedItems = order.item.map(item =>
+  //       item.item_id === id ? { ...item, quantity: newQuantity } : item
+  //     );
+
+  //     await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/order/${orderId}`, {
+  //       method: 'PUT',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify({ ...order, item: updatedItems })
+  //     });
+
+  //     setCart(prevItems =>
+  //       prevItems.map(item =>
+  //         item.id === id ? { ...item, quantity: newQuantity } : item
+  //       )
+  //     );
+  //   } catch (error) {
+  //     console.error("Cập nhật số lượng thất bại:", error);
+  //   }
+  // };
 
   return (
     <div className="container-fluid">
