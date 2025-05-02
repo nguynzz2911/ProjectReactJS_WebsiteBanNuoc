@@ -16,7 +16,8 @@ export default function Menu({onAddToCart}) {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("/data/drinks.json");
+        // const response = await fetch("/data/drinks.json");
+        const response = await fetch("https://68144f46225ff1af16287876.mockapi.io/drinks");
         const data = await response.json();
         setDrinks(data);
       } catch (error) {
