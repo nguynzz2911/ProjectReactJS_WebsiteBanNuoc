@@ -7,6 +7,7 @@ import Contact from './assets/Pages/Contact.jsx'
 import About from './assets/Pages/AboutUs.jsx'
 import Menu from './assets/Pages/Menu.jsx'
 import Login from './assets/Pages/Login.jsx'  
+import Signup from './assets/Pages/Signup.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import drinksData from '../data/drinks.json';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
@@ -42,6 +43,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>  
     </>

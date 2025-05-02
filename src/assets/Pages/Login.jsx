@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import accountData from "../../../data/account.json"; // ✅ Import file JSON
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../Components/Header";
@@ -87,6 +87,11 @@ export default function Login() {
         <button type="submit" className="btn btn-primary w-100">
           Đăng nhập
         </button>
+        <Link to={"/signup"}>
+          <button type="button" className="btn btn-secondary w-100">
+            Đăng ký
+          </button>
+        </Link>
       </form>
         </div>
         <div className="footer">
