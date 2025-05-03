@@ -10,6 +10,10 @@ const UpdateUserInfoModal = ({ show, handleClose, userId, onSuccess }) => {
     const [wards, setWards] = useState([]);
     const [selectedProvince, setSelectedProvince] = useState('');
     const [selectedDistrict, setSelectedDistrict] = useState('');
+    const [selectedWard, setSelectedWard] = useState('');
+
+    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState({});
     const [formData, setFormData] = useState({
         hoten: "",
         sdt: "",
@@ -23,6 +27,96 @@ const UpdateUserInfoModal = ({ show, handleClose, userId, onSuccess }) => {
     useEffect(() => {
         setProvinces(data);
     }, []);
+
+    // useEffect(() => {
+    //     const fetchUserData = async () => {
+    //         try {
+    //             const response = await axios.get(`https://67cd3719dd7651e464edabb9.mockapi.io/account/${userId}`);
+    //             const userData = response.data;
+    //             setUser(userData);
+    //             setFormData({
+    //                 ...formData,
+    //                 hoten: userData.hoten,
+    //                 sdt: userData.sdt,
+    //                 sonha: userData.sonha,
+    //                 duong: userData.duong,
+    //                 phuongxa: userData.phuongxa,
+    //                 quanhuyen: userData.quanhuyen,
+    //                 thanhpho: userData.thanhpho,
+    //                 gioitinh: userData.gioitinh,
+    //             });
+    //             const selectedProvince = data.find(p => p.Name === userData.thanhpho);
+    //             if (selectedProvince) {
+    //                 setSelectedProvince(selectedProvince.Code);
+    //                 setDistricts(selectedProvince.District || []);
+    //                 const selectedDistrict = selectedProvince.District.find(d => d.Name === userData.quanhuyen);
+    //                 if (selectedDistrict) {
+    //                     setSelectedDistrict(selectedDistrict.Code);
+    //                     setWards(selectedDistrict.Ward || []);
+    //                 }
+    //                 const selectedWard = selectedDistrict.Ward.find(w => w.Name === userData.phuongxa);
+    //                 if (selectedWard) {
+    //                     setSelectedWard(selectedWard.Code);
+    //                 }
+    //             }
+    //         } catch (error) {
+    //             console.error("Lỗi khi lấy dữ liệu người dùng:", error);
+    //         }
+    //     };
+    //     fetchUserData();
+
+    // }, [userId]);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const username = localStorage.getItem("username");
+                if (!username) return;
+                fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
+                    .then(res => res.json())
+                    .then(data => {
+                        const found = data.find(u => u.tendn === username);
+                        if (found) setUser(found);
+                    })
+                    .catch(err => console.error("Lỗi khi lấy thông tin user:", err));
+
+                setFormData(prev => ({
+                    ...prev,
+                    hoten: user.hoten,
+                    sdt: user.sdt,
+                    sonha: user.sonha,
+                    duong: user.duong,
+                    phuongxa: user.phuongxa,
+                    quanhuyen: user.quanhuyen,
+                    thanhpho: user.thanhpho,
+                    gioitinh: user.gioitinh,
+                }));
+
+                const selectedProvince = data.find(p => p.Name === user.thanhpho);
+                if (selectedProvince) {
+                    setSelectedProvince(selectedProvince.Code);
+                    setDistricts(selectedProvince.District || []);
+
+                    const selectedDistrict = selectedProvince.District.find(d => d.Name === user.quanhuyen);
+                    if (selectedDistrict) {
+                        setSelectedDistrict(selectedDistrict.Code);
+                        setWards(selectedDistrict.Ward || []);
+
+                        const selectedWard = selectedDistrict.Ward.find(w => w.Name === user.phuongxa);
+                        if (selectedWard) {
+                            setSelectedWard(selectedWard.Code);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Lỗi khi lấy dữ liệu người dùng:", error);
+            }
+        };
+
+        fetchUserData();
+    }, [userId]);
+
+
 
     const handleProvinceChange = (e) => {
         const provinceCode = e.target.value;
@@ -41,9 +135,11 @@ const UpdateUserInfoModal = ({ show, handleClose, userId, onSuccess }) => {
     };
 
     const handlePhuongChange = (e) => {
-        const phuongxa = e.target.value;
-        setFormData(prevState => ({ ...prevState, phuongxa }));
+        const wardCode = e.target.value;
+        setSelectedWard(wardCode);
+        setFormData(prev => ({ ...prev, phuongxa: wardCode })); // ✅ Cập nhật bằng Code
     };
+    
 
     const handleHoTenChange = (e) => {
         const hoten = e.target.value;
@@ -94,11 +190,11 @@ const UpdateUserInfoModal = ({ show, handleClose, userId, onSuccess }) => {
 
             if (response.ok) {
                 if (onSuccess) {
-                  onSuccess(); // gọi callback để cha (CartFooter) fetch lại
+                    onSuccess(); // gọi callback để cha (CartFooter) fetch lại
                 }
-              } else {
+            } else {
                 console.error("Cập nhật thất bại");
-              }
+            }
             alert("Cập nhật thành công");
         } catch (error) {
             console.error("Lỗi cập nhật:", error);
@@ -179,7 +275,7 @@ const UpdateUserInfoModal = ({ show, handleClose, userId, onSuccess }) => {
 
                     <Form.Group className="mb-3">
                         <Form.Label>Phường/Xã</Form.Label>
-                        <Form.Select name="phuongxa" value={formData.phuongxa} onChange={handlePhuongChange}>
+                        <Form.Select name="phuongxa" value={selectedWard} onChange={handlePhuongChange}>
                             <option value="">Chọn phường/xã</option>
                             {wards.map(ward => (
                                 <option key={ward.Code} value={ward.Code} style={{ color: 'black' }}>{ward.Name}</option>
