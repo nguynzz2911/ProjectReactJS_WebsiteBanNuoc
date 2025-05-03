@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Row, Col, Image, Button, InputGroup, Form } from "react-bootstrap"
 import { Trash } from "react-bootstrap-icons"
+import { useNavigate } from "react-router-dom"
 
 export default function ProductItem({
   id,
@@ -17,8 +18,9 @@ export default function ProductItem({
   const [quantity1, setQuantity1] = useState(Number(quantity))
   const parsedPrice = parseFloat(price) || 0
   const [gia, setGia] = useState(parsedPrice * quantity1)
-
+  const navigate = useNavigate()
   const [data, setData] = useState([])
+  const [data1, setData1] = useState([])
 
     useEffect(() => {
       const username = localStorage.getItem("username");
@@ -183,15 +185,33 @@ export default function ProductItem({
     }
   }
 
+  useEffect(() => {
+    const fetchDrink = async () => {
+      try {
+        const response = await fetch(`https://68144f46225ff1af16287876.mockapi.io/drinks`);
+        const data = await response.json();
+        setData1(data);
+      } catch (error) {
+        console.error("Lỗi khi lấy thông tin sản phẩm:", error);
+      }
+    }
+    fetchDrink();
+  }, [])
+
+  const handleClick = (id) => {
+    const drink = data1.find(drink => drink.id === id);
+    navigate(`/detail/${drink.id}`, { state: { drink } });
+  }
+
   return (
-    <Row className="align-items-center mb-3 p-3 border rounded">
+    <Row className="align-items-center mb-3 p-3 border rounded" onClick={() => {handleClick(id)}}>
       {/* Hình ảnh hàng hóa bên trái */}
       <Col xs={3} md={2}>
         <Image src={image} alt={name} fluid thumbnail style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
       </Col>
 
       {/* Tên hàng hóa */}
-      <Col xs={9} md={3} className="fw-bold">
+      <Col xs={9} md={3} className="fw-bold"  >
         {name}
       </Col>
 

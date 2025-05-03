@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Button } from "react-bootstrap";
 import { Eye } from "react-bootstrap-icons";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function BillItems({ id, customer, time, date, total, item}) {
   const [itemsInfo, setItemsInfo] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Lấy thông tin tất cả drinks từ MockAPI
@@ -28,23 +30,30 @@ export default function BillItems({ id, customer, time, date, total, item}) {
         </div>
       </Col>
 
-      <Col xs={9} md={5} className="fw-bold">
+      <Col xs={9} md={7} className="fw-bold">
         {itemsInfo.map((i, index) => (
-          <div key={index}>
-            {i.name} ({i.price}) x{i.quantity}
-          </div>
+            <Link
+            to={`/detail/${i.id}`}
+            state={{ drink: i }}
+            style={{ textDecoration: "none" }}
+            key={index}
+          >
+            <div>
+              {i.name} ({i.price}) x{i.quantity}
+            </div>
+          </Link>
         ))}
       </Col>
 
       <Col xs={6} md={3} className="text-danger fw-bold">
-        {total.toString()},000 đ
+        Tổng tiền: {total.toString()},000 đ
       </Col>
-
+{/* 
       <Col xs={6} md={2} className="text-end mt-2 mt-md-0">
         <Button variant="success">
           <Eye />
         </Button>
-      </Col>
+      </Col> */}
     </Row>
   );
 }
