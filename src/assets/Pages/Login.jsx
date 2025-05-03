@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import accountData from "../../../data/account.json"; // ✅ Import file JSON
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -13,7 +13,6 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-
     const user = accountData.find(
       (acc) => acc.tendn === tendn && acc.matkhau === matkhau
     );
@@ -21,6 +20,8 @@ export default function Login() {
     if (user) {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("username", tendn); // Lưu nếu cần hiển thị tên
+      localStorage.setItem("role", user.quyen); // Lưu vai trò người dùng nếu cần
+      
       navigate("/");
     } else {
       setError("Tên đăng nhập hoặc mật khẩu không đúng");
@@ -44,6 +45,8 @@ export default function Login() {
       if (user) {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("username", tendn);
+        localStorage.setItem("role", user.quyen); // Lưu vai trò người dùng nếu cần
+        alert("Đăng nhập thành công!");
         navigate("/");
       } else {
         setError("Tên đăng nhập hoặc mật khẩu không đúng");
