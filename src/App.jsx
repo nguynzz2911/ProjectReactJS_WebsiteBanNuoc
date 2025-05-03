@@ -12,6 +12,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import drinksData from '../data/drinks.json';
 import NewsDetail from './assets/Pages/NewsDetail';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Admin from './assets/Pages/Admin.jsx'
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/account" element={<Admin />} />
           <Route path="/signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>  
