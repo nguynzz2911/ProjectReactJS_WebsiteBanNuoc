@@ -27,6 +27,13 @@ export default function Admin() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [wards, setWards] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+
+
   useEffect(() => {
     const fetchUser = async () => {
       const username = localStorage.getItem("username");
@@ -41,13 +48,29 @@ export default function Admin() {
 
         setFormData(currentUser);
         setOriginalData(currentUser);
+
+        // Thiết lập quận và phường từ thông tin người dùng hiện tại
+        const selectedProvince = currentUser.thanhpho;
+        const selectedDistrict = currentUser.quanhuyen;
+        const selectedWard = currentUser.phuongxa;
+
+        const province = provinces.find(p => p.name === selectedProvince);
+        if (province) {
+          setDistricts(province.districts || []);
+          const district = province.districts.find(d => d.name === selectedDistrict);
+          if (district) {
+            setWards(district.wards || []);
+          }
+        }
+
       } catch (err) {
         console.error("Lỗi khi lấy dữ liệu người dùng:", err);
       }
     };
 
     fetchUser();
-  }, []);
+  }, [provinces]);  // Thêm dependencies là provinces để nó chạy lại khi danh sách tỉnh thay đổi
+
 
 
   const handleChange = (e) => {
@@ -56,6 +79,84 @@ export default function Admin() {
   };
 
   const handleSave = async () => {
+    //Kiểm tra dữ liệu
+    const phoneRegex = /^0\d{9}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const today = new Date();
+    const dob = new Date(formData.ngaysinh);
+    const age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
+    const dayDiff = today.getDate() - dob.getDate();
+
+    if (!phoneRegex.test(formData.sdt)) {
+      alert("Số điện thoại không hợp lệ.");
+      setLoading(false);
+      return;
+    }
+
+
+    if (!emailRegex.test(formData.email)) {
+      alert("Email không hợp lệ. Vui lòng nhập đúng định dạng.");
+      setLoading(false);
+      return;
+    }
+
+
+    if (
+      dob > today ||
+      age < 16 ||
+      (age === 16 && (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)))
+    ) {
+      alert("Ngày sinh không hợp lệ. Người dùng phải đủ 16 tuổi.");
+      setLoading(false);
+      return;
+    }
+
+
+    if (!formData.hoten.trim()) {
+      alert("Họ tên không được để trống.");
+      setLoading(false);
+      return;
+    }
+
+
+    if (!/^\d+$/.test(formData.soNha.trim())) {
+      alert("Số nhà phải là số và không được để trống.");
+      setLoading(false);
+      return;
+    }
+
+
+    if (!formData.duong.trim()) {
+      alert("Tên đường không được để trống.");
+      setLoading(false);
+      return;
+    }
+
+
+    if (!formData.thanhpho) {
+      alert("Vui lòng chọn Tỉnh/Thành phố.");
+      setLoading(false);
+      return;
+    }
+
+
+    if (!formData.quanhuyen) {
+      alert("Vui lòng chọn Quận/Huyện.");
+      setLoading(false);
+      return;
+    }
+
+
+    if (!formData.phuongxa) {
+      alert("Vui lòng chọn Phường/Xã.");
+      setLoading(false);
+      return;
+    }
+
+
+
     // Cập nhật thông tin người dùng
     try {
       const res = await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/account/${formData.id}`, {
@@ -82,7 +183,7 @@ export default function Admin() {
   };
 
   const handlePasswordChange = () => {
-  setShowPasswordModal(true);
+    setShowPasswordModal(true);
   };
 
   const handlePasswordSubmit = async () => {
@@ -90,23 +191,23 @@ export default function Admin() {
       setPasswordError("Mật khẩu không khớp!");
       return;
     }
-  
+
     if (!passwordRegex.test(newPassword)) {
       setPasswordError("Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, số và ký tự đặc biệt.");
       return;
     }
-  
+
     try {
       const updatedUser = { ...formData, matkhau: newPassword };
-  
+
       const res = await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/account/${formData.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedUser)
       });
-  
+
       if (!res.ok) throw new Error("Password update failed");
-  
+
       alert("Mật khẩu đã được thay đổi!");
       setShowPasswordModal(false);
       setNewPassword("");
@@ -116,12 +217,55 @@ export default function Admin() {
       alert("Đổi mật khẩu thất bại!");
     }
   };
-  
+
 
   const handleClosePasswordModal = () => {
     setShowPasswordModal(false);
     setPasswordError("");
   };
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      try {
+        const res = await fetch("https://provinces.open-api.vn/api/?depth=3");
+        const data = await res.json();
+        setProvinces(data);
+      } catch (error) {
+        console.error("Lỗi khi tải danh sách tỉnh:", error);
+      }
+    };
+    fetchProvinces();
+  }, []);
+  const handleProvinceChange = (e) => {
+    const selectedProvince = e.target.value;
+    const province = provinces.find(p => p.name === selectedProvince);
+    setFormData(prev => ({
+      ...prev,
+      thanhpho: selectedProvince,
+      quanhuyen: "",  // reset quận/huyện khi đổi thành phố
+      phuongxa: ""    // reset phường/xã khi đổi thành phố
+    }));
+    setDistricts(province?.districts || []);
+    setWards([]);  // Reset wards khi đổi thành phố
+  };
+
+  const handleDistrictChange = (e) => {
+    const selectedDistrict = e.target.value;
+    const district = districts.find(d => d.name === selectedDistrict);
+    setFormData(prev => ({
+      ...prev,
+      quanhuyen: selectedDistrict,
+      phuongxa: ""  // reset phường/xã khi đổi quận/huyện
+    }));
+    setWards(district?.wards || []);
+  };
+
+  const handleWardChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      phuongxa: e.target.value
+    }));
+  };
+
 
   return (
     <div className="container-fluid">
@@ -136,7 +280,7 @@ export default function Admin() {
               <Card.Body>
                 <Form>
                   <Row>
-        
+
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Họ tên</Form.Label>
@@ -227,40 +371,55 @@ export default function Admin() {
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Thành phố</Form.Label>
-                        <Form.Control
-                          type="text"
+                        <Form.Select
                           name="thanhpho"
                           value={formData.thanhpho}
-                          onChange={handleChange}
+                          onChange={handleProvinceChange}
                           disabled={!isEditing}
-                        />
+                        >
+                          <option value="">Chọn Tỉnh/Thành phố</option>
+                          {provinces.map(p => (
+                            <option key={p.code} value={p.name}>{p.name}</option>
+                          ))}
+                        </Form.Select>
                       </Form.Group>
+
                     </Col>
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Quận / Huyện</Form.Label>
-                        <Form.Control
-                          type="text"
+                        <Form.Select
                           name="quanhuyen"
                           value={formData.quanhuyen}
-                          onChange={handleChange}
-                          disabled={!isEditing}
-                        />
+                          onChange={handleDistrictChange}
+                          disabled={!isEditing || !formData.thanhpho}
+                        >
+                          <option value="">Chọn Quận/Huyện</option>
+                          {districts.map(d => (
+                            <option key={d.code} value={d.name}>{d.name}</option>
+                          ))}
+                        </Form.Select>
                       </Form.Group>
+
                     </Col>
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Phường / Xã</Form.Label>
-                        <Form.Control
-                          type="text"
+                        <Form.Select
                           name="phuongxa"
                           value={formData.phuongxa}
-                          onChange={handleChange}
-                          disabled={!isEditing}
-                        />
+                          onChange={handleWardChange}
+                          disabled={!isEditing || !formData.quanhuyen}
+                        >
+                          <option value="">Chọn Phường/Xã</option>
+                          {wards.map(w => (
+                            <option key={w.code} value={w.name}>{w.name}</option>
+                          ))}
+                        </Form.Select>
                       </Form.Group>
+
                     </Col>
-         
+
 
                   </Row>
 
@@ -284,40 +443,40 @@ export default function Admin() {
         </Row>
       </Container>
       <Modal
-  show={showPasswordModal}
-  onHide={handleClosePasswordModal}
-  backdrop="static" // Đảm bảo lớp phủ không cho phép tương tác ngoài modal
-  centered // Căn giữa modal trên màn hình
->
-  <Modal.Header closeButton>
-    <Modal.Title>Đổi mật khẩu</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <Form>
-      <Form.Group className="mb-3">
-        <Form.Label>Mật khẩu mới</Form.Label>
-        <Form.Control
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group className="mb-3">
-        <Form.Label>Xác nhận mật khẩu</Form.Label>
-        <Form.Control
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-      </Form.Group>
-      {passwordError && <div className="text-danger">{passwordError}</div>}
-    </Form>
-  </Modal.Body>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={handleClosePasswordModal}>Hủy</Button>
-    <Button variant="primary" onClick={handlePasswordSubmit}>Lưu thay đổi</Button>
-  </Modal.Footer>
-</Modal>
+        show={showPasswordModal}
+        onHide={handleClosePasswordModal}
+        backdrop="static" // Đảm bảo lớp phủ không cho phép tương tác ngoài modal
+        centered // Căn giữa modal trên màn hình
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Đổi mật khẩu</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3">
+              <Form.Label>Mật khẩu mới</Form.Label>
+              <Form.Control
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Xác nhận mật khẩu</Form.Label>
+              <Form.Control
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </Form.Group>
+            {passwordError && <div className="text-danger">{passwordError}</div>}
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClosePasswordModal}>Hủy</Button>
+          <Button variant="primary" onClick={handlePasswordSubmit}>Lưu thay đổi</Button>
+        </Modal.Footer>
+      </Modal>
 
       <div className="footer"><Footer /></div>
     </div>
