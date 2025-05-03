@@ -3,12 +3,14 @@ import { useState, useEffect } from "react"
 import "../CSS/CartFooter.css"
 import { Button } from "react-bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css";
+import UpdateUserInfoModal from "../Components/UpdateUserInfoModal"
 
 export default function CartFooter({
   totalPrice = 0,
   onCheckout = () => { },
 }) {
   const [userInfo, setUserInfo] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const username = localStorage.getItem("username");
@@ -38,12 +40,25 @@ export default function CartFooter({
               <div><strong>SĐT:</strong> {userInfo?.sdt || "..."}</div>
             </div>
             <div className="col">
-            <div><strong>Địa chỉ:</strong> {formatAddress(userInfo)}</div>
-            <div className="d-flex justify-content-center align-items-center">
-            <button variant="outline-secondary" size="sm" className="button2 ms-3">
-              Thay đổi
-            </button>
-            </div>
+              <div><strong>Địa chỉ:</strong> {formatAddress(userInfo)}</div>
+              <div className="d-flex justify-content-center align-items-center">
+                <button variant="outline-secondary" size="sm" className="button2 ms-3" onClick={() => setShowModal(true)}>
+                  Thay đổi
+                </button>
+                <UpdateUserInfoModal
+                  show={showModal}
+                  handleClose={() => setShowModal(false)}
+                  userId={userInfo?.id}
+                  onSuccess={async () => {
+                    const username = localStorage.getItem("username");
+                    const res = await fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account');
+                    const data = await res.json();
+                    const found = data.find(u => u.tendn === username);
+                    if (found) setUserInfo(found);
+                    setShowModal(false);
+                  }}
+                />
+              </div>
             </div>
           </div>
           <div className="col text-end">
