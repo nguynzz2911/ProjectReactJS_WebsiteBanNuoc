@@ -8,6 +8,7 @@ import About from './assets/Pages/AboutUs.jsx'
 import Menu from './assets/Pages/Menu.jsx'
 import Login from './assets/Pages/Login.jsx'  
 import Signup from './assets/Pages/Signup.jsx'
+import Bill from './assets/Pages/Bills.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import drinksData from '../data/drinks.json';
 import NewsDetail from './assets/Pages/NewsDetail';
@@ -46,6 +47,8 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/bills" element={<Bill />} />
+
         </Routes>
       </BrowserRouter>  
     </>

@@ -103,6 +103,7 @@ export default function Header() {
               <Link to="/login" className="dropdown-item">Đăng nhập</Link>
             ) : (
               <>
+                <Link to="/bills" className="dropdown-item">Lịch sử mua</Link>
                 <Link to="/account" className="dropdown-item">Tài khoản</Link>
                 <span onClick={handleLogout} className="dropdown-item" style={{ cursor: "pointer" }}>
                   Đăng xuất
