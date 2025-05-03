@@ -109,6 +109,61 @@ export default function Cart() {
   //   }
   // };
 
+  const handleCheckout = async () => {
+    const username = localStorage.getItem("username");
+    if (!username || cart.length === 0) return;
+  
+    const today = new Date().toISOString().split('T')[0]; // yyyy-mm-dd
+    const total = cart.reduce((acc, item) => {
+      const price = Number(item.price.toString().replace(/,/g, "")) / 1000;
+      return acc + price * item.quantity;
+    }, 0);
+
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const currentTime = `${hours}:${minutes}:${seconds}`;
+  
+    const historyData = {
+      customer: username,
+      date: today,
+      total: total,
+      time: currentTime,
+      item: cart.map(({ id, quantity }) => ({
+        item_id: id,
+        quantity,
+      }))
+    };
+  
+    try {
+      await fetch('https://68144f46225ff1af16287876.mockapi.io/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(historyData)
+      });
+
+      const res = await fetch('https://67cd3719dd7651e464edabb9.mockapi.io/order');
+    const orders = await res.json();
+    const currentOrder = orders.find(order => order.customer === username);
+
+    if (currentOrder) {
+      await fetch(`https://67cd3719dd7651e464edabb9.mockapi.io/order/${currentOrder.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...currentOrder, item: [] }),
+      });
+    }
+  
+      alert("Thanh toán thành công!");
+      setCart([]); // Xoá giỏ hàng sau khi thanh toán
+    } catch (error) {
+      console.error("Thanh toán thất bại:", error);
+      alert("Đã xảy ra lỗi khi thanh toán.");
+    }
+  };
+  
+
   return (
     <div className="container-fluid">
       <Header />
@@ -126,7 +181,7 @@ export default function Cart() {
           ))
         )}
       </div>
-      <Footer totalPrice={totalPrice} />
+      <Footer totalPrice={totalPrice} onCheckout={handleCheckout}/>
     </div>
   );
 }

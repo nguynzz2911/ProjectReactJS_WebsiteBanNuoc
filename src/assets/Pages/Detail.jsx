@@ -127,8 +127,7 @@ export default function Detail({ onAddToCart }) {
       );
 
       if (!resUpdate.ok) throw new Error("Update order failed");
-
-      alert(`Đã thêm ${drink.name} vào giỏ hàng của bạn.`);
+      navigate("/cart"); // Chuyển hướng đến trang giỏ hàng
     } catch (err) {
       console.error("Lỗi khi cập nhật giỏ hàng:", err);
       alert("Không thể cập nhật giỏ hàng. Vui lòng thử lại sau.");

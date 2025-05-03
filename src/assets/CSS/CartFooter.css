@@ -1,0 +1,31 @@
+.button1 {
+    /* Các thuộc tính CSS hiện tại của nút */
+    transition: transform 0.3s ease-in-out; /* Thêm hiệu ứng chuyển đổi mượt mà */
+    padding: 15px 30px;
+    border-radius: 10px;
+    margin-top: 10px;
+    background-color: #4796dd;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .button2 {
+    /* Các thuộc tính CSS hiện tại của nút */
+    transition: transform 0.3s ease-in-out; /* Thêm hiệu ứng chuyển đổi mượt mà */
+    margin-top: 10px;
+    padding: 10px 20px;
+    color: rgb(249, 153, 153);
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .button1:hover {
+    transform: scale(1.05); /* Tăng kích thước lên 1.1 lần khi hover */
+  }
+
+  .button2:hover {
+    transform: scale(1.1); /* Tăng kích thước lên 1.1 lần khi hover */
+    color: red;
+  }
