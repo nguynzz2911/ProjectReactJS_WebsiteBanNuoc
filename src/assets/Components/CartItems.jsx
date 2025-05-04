@@ -204,18 +204,18 @@ export default function ProductItem({
   }
 
   return (
-    <Row className="align-items-center mb-3 p-3 border rounded" onClick={() => {handleClick(id)}}>
+    <Row className="align-items-center mb-3 p-3 border rounded">
       {/* Hình ảnh hàng hóa bên trái */}
-      <Col xs={3} md={2}>
+      <Col xs={3} md={2}  onClick={() => {handleClick(id)}}>
         <Image src={image} alt={name} fluid thumbnail style={{ width: '80px', height: '80px', objectFit: 'cover' }} />
       </Col>
 
       {/* Tên hàng hóa */}
-      <Col xs={9} md={3} className="fw-bold"  >
+      <Col xs={9} md={3} className="fw-bold"   onClick={() => {handleClick(id)}}>
         {name}
       </Col>
 
-      <Col xs={6} md={2} className="text-danger fw-bold">
+      <Col xs={6} md={2} className="text-danger fw-bold"  onClick={() => {handleClick(id)}}>
         {gia.toString()},000 đ
       </Col>
 

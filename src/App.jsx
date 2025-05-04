@@ -9,6 +9,7 @@ import Menu from './assets/Pages/Menu.jsx'
 import Login from './assets/Pages/Login.jsx'  
 import Signup from './assets/Pages/Signup.jsx'
 import Bill from './assets/Pages/Bills.jsx'
+import Manager from './assets/Pages/Manager.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import drinksData from '../data/drinks.json';
 import NewsDetail from './assets/Pages/NewsDetail';
@@ -50,7 +51,7 @@ function App() {
           <Route path="/account" element={<Admin />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/bills" element={<Bill />} />
-
+          <Route path="/admin/*" element={<Manager />} />
         </Routes>
       </BrowserRouter>  
     </>
