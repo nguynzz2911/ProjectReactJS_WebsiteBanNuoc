@@ -6,9 +6,14 @@ import { PiLessThan } from "react-icons/pi";
 import { PiGreaterThan } from "react-icons/pi";
 import { FaRegUserCircle } from "react-icons/fa";
 import "../CSS/Customer.css";
+import UpdateUser from "../Components/UpdateUser"
+import AddUser from "../Components/AddUser";
 
 export default function Customer() {
   const [data, setData] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
+  const [selectedUsername, setSelectedUsername] = useState(null); // State để lưu username được chọn
   useEffect(() => {
 
     fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
@@ -29,6 +34,44 @@ export default function Customer() {
     return <span className={className}>{status}</span>;
   };
 
+  // const handleClick = (id) => {
+  //   <UpdateUser
+  //     show={showModal}
+  //     handleClose={() => setShowModal(false)}
+  //     username = {id}
+  //     onSuccess={() => { /* handle success */
+  //       setShowModal(false);
+  //       fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
+  //         .then(res => res.json())
+  //         .then(data => setData(data))
+  //         .catch(err => console.log(err));
+  //     }}></UpdateUser>
+  //     setShowModal(true);
+  // };
+
+  // const handleClick2 = () => {
+  //   setShowModal1(true);
+  //   <AddUser
+  //     show={showModal1}
+  //     handleClose={() => setShowModal1(false)}
+  //     onSuccess={() => { /* handle success */
+  //       setShowModal1(false);
+  //       fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
+  //         .then(res => res.json())
+  //         .then(data => setData(data))
+  //         .catch(err => console.log(err));
+  //     }}></AddUser>
+  // };
+
+  const handleClick = () => { // Nhận username trực tiếp từ nút
+     // Lưu username vào state
+    setShowModal(true); // Hiển thị modal
+};
+
+const handleClick2 = () => {
+    setShowModal1(true);
+};
+
   return (
     <>
       <div className="container-detailed-report">
@@ -37,7 +80,7 @@ export default function Customer() {
             Dữ liệu khách hàng
           </div>
           <div className="button-ex-im">
-            <button className="button-import">
+            <button className="button-import" onClick={() => handleClick2()}>
               <FaRegUserCircle /> Thêm người dùng
             </button>
           </div>
@@ -54,13 +97,12 @@ export default function Customer() {
                 <th>SỐ ĐIỆN THOẠI</th>
                 <th>EMAIL</th>
                 <th>QUYỀN</th>
-                <th style={{ textAlign: "center" }}>STATUS</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               {data.map((user, index) => (
-                <tr key={index}>
+                <tr key={index} >
                   <td>
                     <input type="checkbox" name="" id="" />
                   </td>
@@ -74,7 +116,7 @@ export default function Customer() {
                     {getStatusBadge(user.quyen)}
                   </td>
                   <td>
-                    <button>
+                    <button onClick={() => {handleClick(); setSelectedUsername(user.tendn);}}>
                       <GoPencil />
                     </button>
                   </td>
@@ -87,6 +129,33 @@ export default function Customer() {
           <p>{data.length} kết quả</p>
         </div>
       </div>
+      <AddUser
+        show={showModal1}
+        handleClose={() => setShowModal1(false)}
+        onSuccess={() => {
+          setShowModal1(false);
+          alert("Thêm người dùng thành công!");
+          fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
+            .then(res => res.json())
+            .then(data => setData(data))
+            .catch(err => console.log(err));
+        }}
+      />
+
+      <UpdateUser
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        username={selectedUsername} // Truyền username đã chọn vào modal
+        onSuccess={() => {
+          setShowModal(false);
+          alert("Cập nhật người dùng thành công!");
+          fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
+            .then(res => res.json())
+            .then(data => setData(data))
+            .catch(err => console.log(err));
+        }}
+      />
     </>
+
   )
 }
