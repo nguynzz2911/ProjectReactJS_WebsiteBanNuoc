@@ -38,7 +38,7 @@ export default function Customer() {
           </div>
           <div className="button-ex-im">
             <button className="button-import">
-              <FaRegUserCircle /> Add user
+              <FaRegUserCircle /> Thêm người dùng
             </button>
           </div>
         </div>

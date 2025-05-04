@@ -29,7 +29,7 @@ export default function Drinks() {
       case "LOẠI TRÀ LATTE":
         className += "bg-success text-white";
         break;
-      case "LOẠI TRÀ CHANH":
+      case "LOẠI TRÀ TRANH":
         className += "bg-primary text-white";
         break;
       default:
