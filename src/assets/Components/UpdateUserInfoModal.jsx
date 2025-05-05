@@ -28,45 +28,6 @@ const UpdateUserInfoModal = ({ show, handleClose, userId, onSuccess }) => {
         setProvinces(data);
     }, []);
 
-    // useEffect(() => {
-    //     const fetchUserData = async () => {
-    //         try {
-    //             const response = await axios.get(`https://67cd3719dd7651e464edabb9.mockapi.io/account/${userId}`);
-    //             const userData = response.data;
-    //             setUser(userData);
-    //             setFormData({
-    //                 ...formData,
-    //                 hoten: userData.hoten,
-    //                 sdt: userData.sdt,
-    //                 sonha: userData.sonha,
-    //                 duong: userData.duong,
-    //                 phuongxa: userData.phuongxa,
-    //                 quanhuyen: userData.quanhuyen,
-    //                 thanhpho: userData.thanhpho,
-    //                 gioitinh: userData.gioitinh,
-    //             });
-    //             const selectedProvince = data.find(p => p.Name === userData.thanhpho);
-    //             if (selectedProvince) {
-    //                 setSelectedProvince(selectedProvince.Code);
-    //                 setDistricts(selectedProvince.District || []);
-    //                 const selectedDistrict = selectedProvince.District.find(d => d.Name === userData.quanhuyen);
-    //                 if (selectedDistrict) {
-    //                     setSelectedDistrict(selectedDistrict.Code);
-    //                     setWards(selectedDistrict.Ward || []);
-    //                 }
-    //                 const selectedWard = selectedDistrict.Ward.find(w => w.Name === userData.phuongxa);
-    //                 if (selectedWard) {
-    //                     setSelectedWard(selectedWard.Code);
-    //                 }
-    //             }
-    //         } catch (error) {
-    //             console.error("Lỗi khi lấy dữ liệu người dùng:", error);
-    //         }
-    //     };
-    //     fetchUserData();
-
-    // }, [userId]);
-
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -118,28 +79,49 @@ const UpdateUserInfoModal = ({ show, handleClose, userId, onSuccess }) => {
 
 
 
-    const handleProvinceChange = (e) => {
-        const provinceCode = e.target.value;
-        setSelectedProvince(provinceCode);
-        const selected = data.find(p => p.Code === provinceCode);
-        setDistricts(selected.District || []);
-        setWards([]);
-        setSelectedDistrict('');
-    };
-
     const handleDistrictChange = (e) => {
         const districtCode = e.target.value;
         setSelectedDistrict(districtCode);
+
         const selectedDistrict = districts.find(d => d.Code === districtCode);
-        setWards(selectedDistrict ? selectedDistrict.Ward : []);
+        const wardsList = selectedDistrict ? selectedDistrict.Ward : [];
+
+        setWards(wardsList);
+        setFormData(prev => ({
+            ...prev,
+            quanhuyen: selectedDistrict?.Name || "",
+            phuongxa: "" // reset phường/xã khi đổi huyện
+        }));
     };
+
+
+    const handleProvinceChange = (e) => {
+        const provinceCode = e.target.value;
+        setSelectedProvince(provinceCode);
+
+        const selected = data.find(p => p.Code === provinceCode);
+        const districtList = selected?.District || [];
+
+        setDistricts(districtList);
+        setWards([]);
+        setSelectedDistrict('');
+
+        setFormData(prev => ({
+            ...prev,
+            thanhpho: selected?.Name || "",
+            quanhuyen: "",
+            phuongxa: ""
+        }));
+    };
+
 
     const handlePhuongChange = (e) => {
         const wardCode = e.target.value;
         setSelectedWard(wardCode);
-        setFormData(prev => ({ ...prev, phuongxa: wardCode })); // ✅ Cập nhật bằng Code
+        const selectedWardName = wards.find(w => w.Code === wardCode)?.Name || ""; // Tìm tên phường/xã từ mã đã chọn
+        setFormData(prev => ({ ...prev, phuongxa: selectedWardName })); // ✅ Cập nhật bằng tên phường/xã
     };
-    
+
 
     const handleHoTenChange = (e) => {
         const hoten = e.target.value;
@@ -164,7 +146,7 @@ const UpdateUserInfoModal = ({ show, handleClose, userId, onSuccess }) => {
     const handleSubmmit = async () => {
         const selectedProvinceObj = provinces.find(p => p.Code === selectedProvince);
         const selectedDistrictObj = districts.find(d => d.Code === selectedDistrict);
-        const selectedWardObj = wards.find(w => w.Code === formData.phuongxa);
+        const selectedWardObj = wards.find(w => w.Code === selectedWard);
 
 
         // Tạo object hoàn chỉnh với địa chỉ rõ ràng
