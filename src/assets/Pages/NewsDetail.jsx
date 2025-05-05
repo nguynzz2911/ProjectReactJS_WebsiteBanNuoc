@@ -12,10 +12,11 @@ export default function NewsDetail() {
   const [newsData, setNewsData] = useState([]);
 
   useEffect(() => {
-    fetch("/data/news.json")
+    fetch("https://68145172225ff1af16287df4.mockapi.io/news")
       .then((res) => res.json())
       .then((data) => {
-        const selectedArticle = data.find((item) => item.id === parseInt(id)); // Chú ý chuyển đổi ID sang kiểu số
+        const selectedArticle = data.find((item) => item.id.toString() === id);
+// Chú ý chuyển đổi ID sang kiểu số
         setArticle(selectedArticle);
         setNewsData(data);
       })

@@ -13,13 +13,17 @@ export default function News() {
   const navigate = useNavigate(); // Hàm điều hướng
 
   useEffect(() => {
-    fetch("/data/news.json")
+    fetch("https://68145172225ff1af16287df4.mockapi.io/news")
       .then((res) => res.json())
       .then((data) => setNewsData(data))
       .catch((err) => console.error('Lỗi khi load dữ liệu:', err));
   }, []);
 
-  const newArticles = newsData.filter((item) => item.type === 'new');
+// Lọc và sắp xếp bài viết mới theo ngày (mới nhất lên trước)
+const newArticles = newsData
+  .filter((item) => item.type === 'new')
+  .sort((a, b) => new Date(b.date) - new Date(a.date));
+
 
   // Tính toán số lượng trang
   const totalPages = Math.ceil(newArticles.length / itemsPerPage);
