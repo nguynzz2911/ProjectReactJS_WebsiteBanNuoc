@@ -46,74 +46,56 @@ const UpdateUser = ({ show, handleClose, username, onSuccess }) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                console.log("username", username);
-
-                fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
-                    .then(res => res.json())
-                    .then(data => {
-                        const found = data.find(u => u.tendn === username);
-                        if (found) setUser(found);
-                    })
-                    .catch(err => console.error("Lỗi khi lấy thông tin user:", err));
-
-                setUserId(user.id);
-                if (user) {
-
-                    // Gán formData đầy đủ các trường
+                const res = await fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account');
+                const data = await res.json();
+                const found = data.find(u => u.tendn === username);
+    
+                if (found) {
+                    setUser(found);
+                    setUserId(found.id);
+    
                     setFormData(prev => ({
                         ...prev,
-                        tendn: user.tendn || "",
-                        matkhau: user.matkhau || "",
-                        hoten: user.hoten || "",
-                        ngaysinh: user.ngaysinh || "",
-                        sdt: user.sdt || "",
-                        quyen: user.quyen || "user",
-                        email: user.email || "",
-                        soNha: user.sonha || "",
-                        duong: user.duong || "",
-                        phuongxa: user.phuongxa,
-                        quanhuyen: user.quanhuyen,
-                        thanhpho: user.thanhpho,
-                        gioitinh: user.gioitinh || "Nam",
+                        tendn: found.tendn || "",
+                        matkhau: found.matkhau || "",
+                        hoten: found.hoten || "",
+                        ngaysinh: found.ngaysinh || "",
+                        sdt: found.sdt || "",
+                        quyen: found.quyen || "user",
+                        email: found.email || "",
+                        soNha: found.sonha || "",
+                        duong: found.duong || "",
+                        phuongxa: found.phuongxa,
+                        quanhuyen: found.quanhuyen,
+                        thanhpho: found.thanhpho,
+                        gioitinh: found.gioitinh || "Nam",
                     }));
-                }
-
-                const province = provinces.find(p => p.Name === user.thanhpho);
-                if (province) {
-                    setSelectedProvince(province.Code);
-                    setDistricts(province.District || []);
-                } else {
-                    setSelectedProvince('');
-                    setDistricts([]);
-                    setWards([]);
-                    setSelectedDistrict('');
-                    setSelectedWard('');
-                }
-
-                const district = districts.find(d => d.Name === user.quanhuyen);
-                if (district) {
-                    setSelectedDistrict(district.Code);
-                    setWards(district.Ward || []);
-                } else {
-                    setSelectedDistrict('');
-                    setWards([]);
-                    setSelectedWard('');
-                }
-
-                const ward = wards.find(w => w.Name === user.phuongxa);
-                if (ward) {
-                    setSelectedWard(ward.Code);
-                } else {
-                    setSelectedWard('');
+    
+                    const province = provinces.find(p => p.Name === found.thanhpho);
+                    if (province) {
+                        setSelectedProvince(province.Code);
+                        setDistricts(province.District || []);
+                    }
+    
+                    const district = province?.District.find(d => d.Name === found.quanhuyen);
+                    if (district) {
+                        setSelectedDistrict(district.Code);
+                        setWards(district.Ward || []);
+                    }
+    
+                    const ward = district?.Ward.find(w => w.Name === found.phuongxa);
+                    if (ward) {
+                        setSelectedWard(ward.Code);
+                    }
                 }
             } catch (error) {
                 console.error("Lỗi khi lấy dữ liệu người dùng:", error);
             }
         };
-
+    
         fetchUserData();
-    }, [username]);
-
+    }, [username, provinces]);
+    
     const handleDistrictChange = (e) => {
         const districtCode = e.target.value;
         setSelectedDistrict(districtCode);
@@ -153,7 +135,8 @@ const UpdateUser = ({ show, handleClose, username, onSuccess }) => {
     const handlePhuongChange = (e) => {
         const wardCode = e.target.value;
         setSelectedWard(wardCode);
-        setFormData(prev => ({ ...prev, phuongxa: wardCode })); // ✅ Cập nhật bằng Code
+        const selectedWardName = wards.find(w => w.Code === wardCode)?.Name || ""; // Tìm tên phường/xã từ mã đã chọn
+        setFormData(prev => ({ ...prev, phuongxa: selectedWardName })); // ✅ Cập nhật bằng tên phường/xã
     };
 
 
@@ -174,12 +157,6 @@ const UpdateUser = ({ show, handleClose, username, onSuccess }) => {
 
         if (!usernameRegex.test(formData.tendn)) {
             alert("Tên đăng nhập không được chứa khoảng trắng.");
-            setLoading(false);
-            return;
-        }
-
-        if (!passwordRegex.test(formData.matkhau)) {
-            alert("Mật khẩu phải có ít nhất 8 ký tự, ít nhất 1 chữ in hoa, 1 số và 1 ký tự đặc biệt.");
             setLoading(false);
             return;
         }
@@ -247,7 +224,7 @@ const UpdateUser = ({ show, handleClose, username, onSuccess }) => {
         // Tìm tên đầy đủ của tỉnh, huyện, xã từ mã đã chọn
         const selectedProvinceObj = provinces.find(p => p.Code === selectedProvince);
         const selectedDistrictObj = districts.find(d => d.Code === selectedDistrict);
-        const selectedWardObj = wards.find(w => w.Code === formData.phuongxa);
+        const selectedWardObj = wards.find(w => w.Code === selectedWard);
 
 
         // Tạo object hoàn chỉnh với địa chỉ rõ ràng
@@ -371,7 +348,7 @@ const UpdateUser = ({ show, handleClose, username, onSuccess }) => {
                         <Col md={6}>
                             <Form.Group className="mb-3">
                                 <Form.Label>Phường/Xã</Form.Label>
-                                <Form.Select name="phuongxa" value={formData.phuongxa} onChange={handleChange}>
+                                <Form.Select name="phuongxa" value={selectedWard} onChange={handlePhuongChange}>
                                     <option value="">Chọn phường/xã</option>
                                     {wards.map(ward => (
                                         <option key={ward.Code} value={ward.Code} style={{ color: 'black' }}>{ward.Name}</option>
