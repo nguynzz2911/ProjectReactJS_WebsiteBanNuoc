@@ -4,25 +4,34 @@ import Header from "../Components/Header";
 import Item from "../Components/CartItems";
 import Footer from '../Components/CartFooter';
 import orders from '../../../data/order.json';
-import products from '../../../data/drinks.json';
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [data, setData] = useState([])
+  const [products, setProducts] = useState([]);
+
+
+  useEffect(() => {
+    fetch('https://68144f46225ff1af16287876.mockapi.io/drinks')
+        .then(res => res.json())
+        .then(products => setProducts(products)) // Corrected to setProducts(products)
+        .catch(err => console.log(err));
+  }, []);
 
     useEffect(() => {
       const username = localStorage.getItem("username");
       if (!username) return;
-    
+      
       fetch('https://67cd3719dd7651e464edabb9.mockapi.io/order')
         .then(res => res.json())
         .then(data => {
           const userOrder = data.find(order => order.customer === username);
           if (!userOrder) return;
-    
+          
           const mergedItems = userOrder.item.map(({ item_id, quantity }) => {
             const product = products.find(p => p.id === item_id);
+            console.log(product.price);
             return {
               id: item_id,
               name: product?.name || "Không rõ",
@@ -35,14 +44,14 @@ export default function Cart() {
           setCart(mergedItems);
         })
         .catch(err => console.log(err));
-    }, []);
+    }, [products]);
     
 
   useEffect(() => {
     let newTotal = 0;
   
     cart.forEach(item => {
-      const price = Number(item.price.toString().replace(/,/g, "")) / 1000;
+      const price = Number(item.price.toString().replace(/,/g, ""));
       newTotal += price * item.quantity;
     });
   

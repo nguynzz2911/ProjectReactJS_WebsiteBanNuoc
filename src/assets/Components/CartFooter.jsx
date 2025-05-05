@@ -63,7 +63,7 @@ export default function CartFooter({
           </div>
           <div className="col text-end">
             <div className="col">
-              <h5>Tổng tiền: {totalPrice.toString()},000 VNĐ</h5>
+              <h5>Tổng tiền: {(totalPrice / 1000).toString()},000 VNĐ</h5>
             </div>
             <div className="col">
               <button variant="primary" onClick={onCheckout} className='button1'>
