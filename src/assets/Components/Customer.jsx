@@ -34,43 +34,44 @@ export default function Customer() {
     return <span className={className}>{status}</span>;
   };
 
-  // const handleClick = (id) => {
-  //   <UpdateUser
-  //     show={showModal}
-  //     handleClose={() => setShowModal(false)}
-  //     username = {id}
-  //     onSuccess={() => { /* handle success */
-  //       setShowModal(false);
-  //       fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
-  //         .then(res => res.json())
-  //         .then(data => setData(data))
-  //         .catch(err => console.log(err));
-  //     }}></UpdateUser>
-  //     setShowModal(true);
-  // };
+  const handleOpenUpdateModal = (username) => {
+    setSelectedUsername(username); // Lưu username khi nút được bấm
+    console.log(username);
 
-  // const handleClick2 = () => {
-  //   setShowModal1(true);
-  //   <AddUser
-  //     show={showModal1}
-  //     handleClose={() => setShowModal1(false)}
-  //     onSuccess={() => { /* handle success */
-  //       setShowModal1(false);
-  //       fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
-  //         .then(res => res.json())
-  //         .then(data => setData(data))
-  //         .catch(err => console.log(err));
-  //     }}></AddUser>
-  // };
-
-  const handleClick = () => { // Nhận username trực tiếp từ nút
-     // Lưu username vào state
     setShowModal(true); // Hiển thị modal
-};
+  };
 
-const handleClick2 = () => {
+  const handleCloseUpdateModal = () => {
+    setShowModal(false);
+    setSelectedUsername(null); // Reset username khi đóng modal
+  };
+
+  const handleOpenAddModal = () => {
     setShowModal1(true);
-};
+  };
+
+  const handleCloseAddModal = () => {
+    setShowModal1(false);
+  };
+
+  const handleAddSuccess = () => {
+    setShowModal1(false);
+    alert("Thêm người dùng thành công!");
+    fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
+      .then(res => res.json())
+      .then(data => setData(data))
+      .catch(err => console.log(err));
+  };
+
+  const handleUpdateSuccess = () => {
+    setShowModal(false);
+    setSelectedUsername(null);
+    alert("Cập nhật người dùng thành công!");
+    fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
+      .then(res => res.json())
+      .then(data => setData(data))
+      .catch(err => console.log(err));
+  };
 
   return (
     <>
@@ -80,7 +81,7 @@ const handleClick2 = () => {
             Dữ liệu khách hàng
           </div>
           <div className="button-ex-im">
-            <button className="button-import" onClick={() => handleClick2()}>
+            <button className="button-import" onClick={handleOpenAddModal}>
               <FaRegUserCircle /> Thêm người dùng
             </button>
           </div>
@@ -116,7 +117,7 @@ const handleClick2 = () => {
                     {getStatusBadge(user.quyen)}
                   </td>
                   <td>
-                    <button onClick={() => {handleClick(); setSelectedUsername(user.tendn);}}>
+                    <button onClick={() => handleOpenUpdateModal(user.tendn)}>
                       <GoPencil />
                     </button>
                   </td>
@@ -131,30 +132,25 @@ const handleClick2 = () => {
       </div>
       <AddUser
         show={showModal1}
-        handleClose={() => setShowModal1(false)}
-        onSuccess={() => {
-          setShowModal1(false);
-          alert("Thêm người dùng thành công!");
-          fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
-            .then(res => res.json())
-            .then(data => setData(data))
-            .catch(err => console.log(err));
-        }}
+        handleClose={handleCloseAddModal}
+        onSuccess={handleAddSuccess}
       />
 
-      <UpdateUser
+      {/* <UpdateUser
         show={showModal}
-        handleClose={() => setShowModal(false)}
+        handleClose={handleCloseUpdateModal}
         username={selectedUsername} // Truyền username đã chọn vào modal
-        onSuccess={() => {
-          setShowModal(false);
-          alert("Cập nhật người dùng thành công!");
-          fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
-            .then(res => res.json())
-            .then(data => setData(data))
-            .catch(err => console.log(err));
-        }}
-      />
+        onSuccess={handleUpdateSuccess}
+      /> */}
+
+      {showModal && (
+        <UpdateUser
+          show={true}
+          handleClose={handleCloseUpdateModal}
+          username={selectedUsername}
+          onSuccess={handleUpdateSuccess}
+        />
+      )}
     </>
 
   )

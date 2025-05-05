@@ -43,77 +43,131 @@ const UpdateUser = ({ show, handleClose, username, onSuccess }) => {
         setProvinces(data);
     }, []);
 
+    // useEffect(() => {
+    //     const fetchUserData = async () => {
+    //         try {
+    //             console.log("Fetching user data for username:", username);
+    //             // Gọi API lấy danh sách user
+    //             let found = null
+    //             fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
+    //                 .then(res => res.json())
+    //                 .then(data => {
+    //                     found = data.find(u => u.tendn === username);
+    //                     if (found) setUser(found);
+    //                 })
+    //                 .catch(err => console.error("Lỗi khi lấy thông tin user:", err));
+                
+    //             if (user) {
+    //                 setUserId(user.id);
+    //                 // Gán formData đầy đủ các trường
+    //                 setFormData(prev => ({
+    //                     ...prev,
+    //                     tendn: found?.tendn || "",
+    //                     matkhau: found?.matkhau || "",
+    //                     hoten: found?.hoten || "",
+    //                     ngaysinh: found?.ngaysinh || "",
+    //                     sdt: found?.sdt || "",
+    //                     quyen: found?.quyen || "user",
+    //                     email: found?.email || "",
+    //                     soNha: found?.sonha || "",
+    //                     duong: found?.duong || "",
+    //                     phuongxa: found?.phuongxa,
+    //                     quanhuyen: found?.quanhuyen,
+    //                     thanhpho: found?.thanhpho,
+    //                     gioitinh: found?.gioitinh || "Nam",
+    //                 }));
+    //             }
+
+    //             const province = provinces.find(p => p.Name === user.thanhpho);
+    //             if (province) {
+    //                 setSelectedProvince(province.Code);
+    //                 setDistricts(province.District || []);
+    //             } else {
+    //                 setSelectedProvince('');
+    //                 setDistricts([]);
+    //                 setWards([]);
+    //                 setSelectedDistrict('');
+    //                 setSelectedWard('');
+    //             }
+
+    //             const district = districts.find(d => d.Name === user.quanhuyen);
+    //             if (district) {
+    //                 setSelectedDistrict(district.Code);
+    //                 setWards(district.Ward || []);
+    //             } else {
+    //                 setSelectedDistrict('');
+    //                 setWards([]);
+    //                 setSelectedWard('');
+    //             }
+
+    //             const ward = wards.find(w => w.Name === user.phuongxa);
+    //             if (ward) {
+    //                 setSelectedWard(ward.Code);
+    //             } else {
+    //                 setSelectedWard('');
+    //             }
+    //         } catch (error) {
+    //             console.error("Lỗi khi lấy dữ liệu người dùng:", error);
+    //         }
+    //     };
+
+    //     fetchUserData();
+    // }, [username, provinces]);
+
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                console.log("username", username);
-
-                fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account')
-                    .then(res => res.json())
-                    .then(data => {
-                        const found = data.find(u => u.tendn === username);
-                        if (found) setUser(found);
-                    })
-                    .catch(err => console.error("Lỗi khi lấy thông tin user:", err));
-
-                setUserId(user.id);
-                if (user) {
-
-                    // Gán formData đầy đủ các trường
+                const res = await fetch('https://67cd3719dd7651e464edabb9.mockapi.io/account');
+                const data = await res.json();
+                const found = data.find(u => u.tendn === username);
+    
+                if (found) {
+                    setUser(found);
+                    setUserId(found.id);
+    
                     setFormData(prev => ({
                         ...prev,
-                        tendn: user.tendn || "",
-                        matkhau: user.matkhau || "",
-                        hoten: user.hoten || "",
-                        ngaysinh: user.ngaysinh || "",
-                        sdt: user.sdt || "",
-                        quyen: user.quyen || "user",
-                        email: user.email || "",
-                        soNha: user.sonha || "",
-                        duong: user.duong || "",
-                        phuongxa: user.phuongxa,
-                        quanhuyen: user.quanhuyen,
-                        thanhpho: user.thanhpho,
-                        gioitinh: user.gioitinh || "Nam",
+                        tendn: found.tendn || "",
+                        matkhau: found.matkhau || "",
+                        hoten: found.hoten || "",
+                        ngaysinh: found.ngaysinh || "",
+                        sdt: found.sdt || "",
+                        quyen: found.quyen || "user",
+                        email: found.email || "",
+                        soNha: found.sonha || "",
+                        duong: found.duong || "",
+                        phuongxa: found.phuongxa,
+                        quanhuyen: found.quanhuyen,
+                        thanhpho: found.thanhpho,
+                        gioitinh: found.gioitinh || "Nam",
                     }));
-                }
-
-                const province = provinces.find(p => p.Name === user.thanhpho);
-                if (province) {
-                    setSelectedProvince(province.Code);
-                    setDistricts(province.District || []);
-                } else {
-                    setSelectedProvince('');
-                    setDistricts([]);
-                    setWards([]);
-                    setSelectedDistrict('');
-                    setSelectedWard('');
-                }
-
-                const district = districts.find(d => d.Name === user.quanhuyen);
-                if (district) {
-                    setSelectedDistrict(district.Code);
-                    setWards(district.Ward || []);
-                } else {
-                    setSelectedDistrict('');
-                    setWards([]);
-                    setSelectedWard('');
-                }
-
-                const ward = wards.find(w => w.Name === user.phuongxa);
-                if (ward) {
-                    setSelectedWard(ward.Code);
-                } else {
-                    setSelectedWard('');
+    
+                    const province = provinces.find(p => p.Name === found.thanhpho);
+                    if (province) {
+                        setSelectedProvince(province.Code);
+                        setDistricts(province.District || []);
+                    }
+    
+                    const district = province?.District.find(d => d.Name === found.quanhuyen);
+                    if (district) {
+                        setSelectedDistrict(district.Code);
+                        setWards(district.Ward || []);
+                    }
+    
+                    const ward = district?.Ward.find(w => w.Name === found.phuongxa);
+                    if (ward) {
+                        setSelectedWard(ward.Code);
+                    }
                 }
             } catch (error) {
                 console.error("Lỗi khi lấy dữ liệu người dùng:", error);
             }
         };
-
+    
         fetchUserData();
-    }, [username]);
-
+    }, [username, provinces]);
+    
     const handleDistrictChange = (e) => {
         const districtCode = e.target.value;
         setSelectedDistrict(districtCode);
@@ -174,12 +228,6 @@ const UpdateUser = ({ show, handleClose, username, onSuccess }) => {
 
         if (!usernameRegex.test(formData.tendn)) {
             alert("Tên đăng nhập không được chứa khoảng trắng.");
-            setLoading(false);
-            return;
-        }
-
-        if (!passwordRegex.test(formData.matkhau)) {
-            alert("Mật khẩu phải có ít nhất 8 ký tự, ít nhất 1 chữ in hoa, 1 số và 1 ký tự đặc biệt.");
             setLoading(false);
             return;
         }
