@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import '../CSS/Detail.css'
+import Anh from "../../images/cart.png"
+
 
 export default function Detail({ onAddToCart }) {
   const { state } = useLocation();
@@ -216,7 +218,7 @@ export default function Detail({ onAddToCart }) {
                   className="btn border border-dark text-dark bg-white d-flex align-items-center px-4 py-2"
                   onClick={handleAddToCart}
                 >
-                  <img src="/src/images/cart.png" alt="Cart" style={{ width: "20px", marginRight: "8px" }} />
+                  <img src={Anh} alt="Cart" style={{ width: "20px", marginRight: "8px" }} />
                   Thêm vào giỏ hàng
                 </button>
                 <button className="btn btn-primary text-white px-4 py-2" onClick={handleBuyNowAPI}>
